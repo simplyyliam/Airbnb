@@ -4,14 +4,13 @@
    display: flex;
    flex-direction: column;
    width: 100vw;
-   height: 100vh;
-   padding: 16px 80px;
+   height: auto;
    gap: 16px;
-   background-color: #0A0A0A;
-   color: white;
+   background-color: #000;
+   color: #fff;
 }
 
 a {
-   color: white;
+   color: #fff;
    text-decoration: none;
 }
