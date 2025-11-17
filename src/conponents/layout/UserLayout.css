@@ -6,6 +6,7 @@
    width: 100vw;
    height: 100vh;
    padding: 16px 80px;
+   gap: 16px;
    background-color: #0A0A0A;
    color: white;
 }

@@ -1,0 +1,61 @@
+
+#container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: fit-content;
+    background-color: #fff;
+    padding: 8px 8px 8px 32px;
+    gap: 32px;
+    border-radius: 100px;
+    color: #000;
+}
+
+.locations .header h1, .check-in .header h1, .checkout .header h1, .guests .header h1 {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 16px;
+}
+.locations .header p, .check-in .header p, .checkout .header p, .guests .header p {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: #6B7280;
+}
+.locations, .check-in, .checkout, .guests {
+    display: flex;
+    align-content: center;
+    gap: 32px;
+}
+
+.locations span, .check-in span, .checkout span, .guests span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #F7F7F7;
+    border-radius: 6.25px;
+    border: 1px solid #608ff515;
+    width: 37px;
+    height: 37px;
+}
+
+.search {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(222, 49, 81, 1);
+    color: #fff;
+    width: 48px;
+    height: 48px;
+    border-radius: 100%;
+}
+
