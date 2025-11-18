@@ -120,9 +120,7 @@ button {
 
 .card .card-hero {
     width: 100%;
-    height: 55%;        
-    background: url("/hero.jpg") center no-repeat;
-    background-size: cover;
+    height: calc(100% - 10em);
 }
 
 .card .card-info {

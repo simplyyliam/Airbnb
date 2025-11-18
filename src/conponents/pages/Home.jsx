@@ -19,13 +19,15 @@ export default function Home () {
         <div className='next-trips'>
           <h1 className='section-title'>Inspiration for your next trip</h1>
           <div className='carousel'>
-            <div className='card'>
-              <div className='card-hero'></div>
-              <div className='card-info'>
-                <h1>Sandton City Hotel</h1>
-                <p>53 km away</p>
+            {LandingData.trips.map(t => (
+              <div className='card'>
+                <img className='card-hero' src={t.img} alt='' />
+                <div className='card-info'>
+                  <h1>{t.title}</h1>
+                  <p>{t.distance}</p>
+                </div>
               </div>
-            </div>
+            ))}
           </div>
         </div>
         <div className='discover'>
@@ -71,7 +73,14 @@ export default function Home () {
             <div className='pre-footer-nav'>
               <div className='footer-nav'>
                 {LandingData.destinations.map((d, i) => (
-                  <h1 style={{ opacity: i > 0 ? '50%' : '', textDecoration: d.id === 1 ? "underline" : ""}}>{d.title}</h1>
+                  <h1
+                    style={{
+                      opacity: i > 0 ? '50%' : '',
+                      textDecoration: d.id === 1 ? 'underline' : ''
+                    }}
+                  >
+                    {d.title}
+                  </h1>
                 ))}
               </div>
             </div>
@@ -86,7 +95,8 @@ export default function Home () {
                       <div key={l.title} className='location'>
                         <h1
                           style={{
-                            textDecoration: l.order === 3 && i === 3 ? 'underline' : ''
+                            textDecoration:
+                              l.order === 3 && i === 3 ? 'underline' : ''
                           }}
                           className='location-title'
                         >
