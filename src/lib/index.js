@@ -1,0 +1,2 @@
+export { LandingData } from "./landingData";
+

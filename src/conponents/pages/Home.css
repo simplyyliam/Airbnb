@@ -43,26 +43,30 @@
     font-weight: 500;
     font-size: 24px;
     line-height: 56px;
-    letter-spacing: 0%;
-    vertical-align: middle;
 
 }
+
+button {
+    transition: transform 0.2s ease-in-out;
+    cursor: pointer;
+}
+
 
 .hero button {
     width: fit-content;
     padding: 16px 24px;
     border-radius: 100px;
     border: none;
-    cursor: pointer;
-    transition: transform 0.2s ease-in-out;
+
+
 }
 
-.hero button:hover {
+ button:hover {
     transform: scale(0.95);
 
 }
 
-.hero button:active {
+ button:active {
     transform: scale(0.9);
 }
 
@@ -90,10 +94,9 @@
 .section .section-title {
     font-family: Inter;
     font-weight: 500;
-    font-size: 18px;    
+    font-size: 30px;    
     line-height: 44px;
-    letter-spacing: 0%;
-    vertical-align: middle;
+    margin-bottom: 16px;
 }
 
 .section .next-trips p {
@@ -101,8 +104,6 @@
     font-weight: 400;
     font-size: 14px;
     line-height: 28px;
-    letter-spacing: 0%;
-    vertical-align: middle;
 }
 
 .card {
@@ -149,16 +150,164 @@
 }
 
 
-
-
-
 .discover .card-hero {    
     width: 628px;
     height: 628px;
     gap: 24px;
     border-radius: 8px;
+    padding: 80px;
     background: url("/hero.jpg") center no-repeat;
     background-size: cover;
 }
 
 
+.discover .card-hero .card-info {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    color: #fff;
+}
+
+.card-hero .card-info h1 {
+    max-width: 6em;
+    font-family: Inter;
+    font-weight: 500;
+    font-size: 40px;
+    line-height: 56px;
+
+}
+
+.discover .card-hero button, .shop-airbnb .header button {
+    width: fit-content;
+    height: fit-content;
+    gap: 8px;
+
+    border: none;
+    padding: 16px 24px;
+    border-radius: 8px;
+    background-color: #fff;
+}
+
+
+.shop-airbnb {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.shop-airbnb .header {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.shop-airbnb .header button {
+    background-color: #000;
+    color: #fff;
+    font-family: Inter;
+    font-weight: 500;
+    font-size: 11px;
+
+
+}
+
+.shop-airbnb .header h1 {
+    max-width: 7em;
+    font-family: Inter;
+    font-weight: 500;
+    font-size: 40px;
+    line-height: 56px;
+
+}
+
+
+
+.questions {
+    width: 100%;
+    height: calc(100vh - 15em);
+    background: url("/faq.jpg") center no-repeat;
+    background-size: cover;
+    padding: 80px;
+    color: #fff;
+}
+
+.questions .questions-header {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+
+.questions .questions-header h1 {
+    max-width: 6em;
+    font-family: Inter;
+    font-weight: 500;
+    font-size: 70px;
+
+}
+
+.questions .questions-header button {
+    width: fit-content;
+    height: fit-content;
+    gap: 8px;
+    border: none;
+    border-radius: 8px;
+    padding: 16px 24px;
+
+    font-family: Inter;
+    font-weight: 500;
+    font-size: 12px
+
+}
+
+
+
+.pre-footer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: fit-content;
+    gap: 32px;
+}
+
+
+.pre-footer .section-header .footer-nav {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    width: 100%;
+    height: fit-content;
+
+}
+
+.pre-footer .section-header .footer-nav h1 {
+    font-family: Inter;
+    font-weight: 500;
+    font-size: 14px;
+}
+.pre-footer .destinations .location h1, .location p {
+    font-family: Inter;
+    font-weight: 400;
+    font-size: 14px;
+}
+
+
+.location {
+    width: 100%;
+}
+
+.location p {
+    opacity: 50%;
+}
+
+.destinations {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.row {
+  display: flex;
+  gap: 1.5rem;
+}
