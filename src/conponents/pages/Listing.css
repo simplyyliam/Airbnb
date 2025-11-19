@@ -1,0 +1,71 @@
+.listings-container {
+  width: 90%;
+  max-width: 1300px;
+  margin: 40px auto;
+  font-family: Arial;
+}
+
+.listings-title {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 25px;
+}
+
+.listings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 25px;
+}
+
+.listing-card {
+  display: block;
+  text-decoration: none;
+  color: black;
+  transition: transform 0.1s ease;
+}
+
+.listing-card:hover {
+  transform: scale(1.02);
+}
+
+.listing-img-wrapper {
+  width: 100%;
+  height: 220px;
+  overflow: hidden;
+  border-radius: 14px;
+}
+
+.listing-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.listing-info {
+  margin-top: 8px;
+}
+
+.listing-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.listing-title {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.listing-rating {
+  font-size: 15px;
+}
+
+.listing-location {
+  color: #555;
+  margin-top: 3px;
+}
+
+.listing-price {
+  margin-top: 6px;
+  font-size: 16px;
+}
