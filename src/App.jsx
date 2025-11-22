@@ -1,8 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import UserLayout from "./conponents/layout/UserLayout";
-import Home from "./conponents/pages/Home";
-import Listings from "./conponents/pages/Listings"; 
-import ListingDetails from "./conponents/pages/ListingDetails";
+import { Home, ListingDetails, Listings } from "./conponents/pages";
 
 export default function App() {
   return (
@@ -10,7 +8,7 @@ export default function App() {
       <Routes>
         <Route element={<UserLayout />}>
 
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home/>} />
 
           {/* LISTINGS PAGE */}
           <Route path="/listings" element={<Listings />} />

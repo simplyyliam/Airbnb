@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import './Home.css'
-import { LandingData } from '../../lib/landingData'
+import { LandingData } from '../../../lib/landingData'
 
 export default function Home () {
   return (
