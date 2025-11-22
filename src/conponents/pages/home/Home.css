@@ -8,8 +8,11 @@
     width: 100%;
     display: flex;
     background-color: #000;
+    color: #fff;
 
 }
+
+
 .hero-inner {
     padding: 80px;
     width: 100%;

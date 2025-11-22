@@ -1,10 +1,13 @@
 import { Link } from 'react-router-dom'
 import './Home.css'
 import { LandingData } from '../../../lib/landingData'
+import { Navbar, Searchbar } from "../../ui"
 
 export default function Home () {
   return (
     <div className='home-container'>
+      <Navbar />
+      <Searchbar />
       <div className='hero-inner'>
         <div className='hero'>
           <div className='header'>

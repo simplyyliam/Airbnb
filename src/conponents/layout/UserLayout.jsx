@@ -7,8 +7,6 @@ import { LandingData } from '../../lib/landingData'
 export default function UserLayout () {
   return (
     <div className='container'>
-      <Navbar />
-      <Searchbar />
       <Outlet />
       <footer>
         <div className='footer-info'>

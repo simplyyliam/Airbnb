@@ -1,63 +1,111 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import "./Listing.css";
+import { useEffect, useState } from 'react'
+import './Listing.css'
+import { Navbar, Wrapper, Chip } from '../../ui'
+import { Link } from 'react-router-dom'
 
-export default function Listings() {
-  const [listings, setListings] = useState([]);
-  const [loading, setLoading] = useState(true);
+export default function Listings () {
+  const [listings, setListings] = useState([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    async function loadListings() {
+    async function loadListings () {
       try {
-        const res = await fetch("http://localhost:5000/api/listings");
-        const data = await res.json();
-        setListings(data);
+        const res = await fetch('http://localhost:5000/api/listings')
+        const data = await res.json()
+        setListings(data)
       } catch (error) {
-        console.error("Error loading listings:", error);
+        console.error('Error loading listings:', error)
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
     }
-    loadListings();
-  }, []);
+    loadListings()
+  }, [])
 
-  if (loading) return <div className="loading">Loading listings...</div>;
+  if (loading) return <div className='loading'>Loading listings...</div>
 
   return (
-    <div className="listings-container">
-      <h1 className="listings-title">Explore All Listings</h1>
+    <div className='listing-container'>
+      <Navbar />
+      <Wrapper className='wrapper'>
+        <h1>200+ Airbnb Luxe stays in New York</h1>
 
-      <div className="listings-grid">
-        {listings.map((item) => (
-          <Link 
-            to={`/listings/${item._id}`} 
-            key={item._id}
-            className="listing-card"
+        <div className='listing-chips'>
+          <Chip>Free cancellations</Chip>
+          <Chip>Type of place</Chip>
+          <Chip>Price</Chip>
+          <Chip>Instant Book</Chip>
+          <Chip>More filters</Chip>
+        </div>
+
+        <hr />
+
+        {/* 🔥 Loop through listings from backend */}
+        {listings.map(listing => (
+          <Link
+            to={`/listings/${listing._id}`}
+            key={listing._id}
+            className='listing-card'
           >
-            {/* IMAGE */}
-            <div className="listing-img-wrapper">
-              <img 
-                src={item.images?.[0] || "https://via.placeholder.com/300"} 
-                alt={item.title}
-                className="listing-img"
+            <div className='ratio'>
+              <img
+                src={listing.images?.[0] || '/hero.jpg'}
+                alt={listing.title}
               />
             </div>
 
-            {/* DETAILS */}
-            <div className="listing-info">
-              <div className="listing-header">
-                <h3 className="listing-title">{item.title}</h3>
-                <span className="listing-rating">⭐ {item.rating || 4.8}</span>
+            <div className='listing-content'>
+              <div className='listing-header'>
+                <div className='listing-title-subtitle'>
+                  <p>{listing.location}</p>
+                  <h1>{listing.title}</h1>
+                </div>
+
+                <span>
+                  <svg
+                    width='32'
+                    height='32'
+                    viewBox='0 0 32 32'
+                    fill='none'
+                    xmlns='http://www.w3.org/2000/svg'
+                  >
+                    <path
+                      fillRule='evenodd'
+                      clipRule='evenodd'
+                      d='M15.9934 9.64423C14.0607 7.47996 10.8378 6.89778 8.41625 8.8796C5.9947 10.8614 5.65378 14.1749 7.55543 16.5189L15.9934 24.3333L24.4314 16.5189C26.3331 14.1749 26.0338 10.8406 23.5706 8.8796C21.1074 6.91862 17.9261 7.47996 15.9934 9.64423Z'
+                      stroke='#374151'
+                      strokeWidth='1.5'
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                    />
+                  </svg>
+                </span>
               </div>
 
-              <p className="listing-location">{item.location}</p>
-              <p className="listing-price">
-                <strong>${item.price}</strong> / night
-              </p>
+              <hr />
+
+              <div className='listing-detials'>
+                <p>
+                  {listing.guests} guests · {listing.type} · {listing.beds} beds
+                  · {listing.baths} bath
+                </p>
+                <p>{listing.amenities?.slice(0, 3).join(' · ')}</p>
+              </div>
+
+              <hr />
+
+              <div className='listing-footer'>
+                <h1>
+                  {listing.rating} ({listing.reviews} reviews)
+                </h1>
+                <span>${listing.price} /night</span>
+              </div>
             </div>
           </Link>
         ))}
-      </div>
+
+        <hr />
+      </Wrapper>
     </div>
-  );
+  )
 }
