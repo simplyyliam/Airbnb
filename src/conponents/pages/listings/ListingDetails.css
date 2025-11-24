@@ -1,0 +1,372 @@
+.listing-details-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    padding: 24px 160px 64px !important;
+}
+
+
+.haeder {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+
+.haeder .haeder-details {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.haeder-details .left, .haeder-details .right {
+    display: flex;
+    gap: 8px;
+}
+
+.image-grid {
+    display: flex;
+    gap: 8px;
+}
+
+.image-grid .rows {
+  display: grid; 
+  grid-template-columns: 1fr 1fr; 
+  grid-template-rows: 1fr 1fr;
+  gap: 8px; 
+  width: 400px; 
+  height: 400px; 
+  background-color: #eee
+}
+
+
+.img-item {
+    background-color: #333; 
+    color: #fff; 
+    display: flex; 
+    justify-content: center;
+    align-items: center; 
+    font-size: 2em; 
+    border-radius: 5px;
+} 
+
+
+.image-grid .main img {
+    width: 556px;
+    height: 400px;
+    background-size: cover;
+    background-position: center;
+    background: no-repeat;
+    border-radius: 5px;
+}
+
+.image-grid .rows img {
+    width: 274px;
+    height: 196px;
+    background-size: cover;
+    background-position: center;
+    background: no-repeat;
+}
+
+.content {
+    display: flex;
+    gap: 80px;
+}
+
+.content .content-left {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 32px;
+}
+
+.content .content-header  {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.content-header .title {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.content-header .info {
+    display: flex;
+    width: fit-content;
+    gap: 8px;
+}
+
+.content-header .avatar img {
+    width: 56px;    
+    height: 56px;    
+    background: center no-repeat;
+    background-size: cover;
+    border-radius: 100px;
+}
+
+.content-left .content-details {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+} 
+
+.content-details .details-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.content-details .details-title {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.content-details .details-title h1 {
+    font-weight: 500;
+    font-size: 16px;
+}
+.content-details .details-title p {
+    font-weight: 400;
+    font-size: 14px;
+    color: rgba(107, 114, 128, 1);
+}
+
+.content-description {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 24px;
+}
+
+.content-description .show-more {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.content-description h1 {
+    font-weight: 400;
+    font-size: 16px;
+}
+
+.show-more h1 {
+    font-weight: 500;
+    font-size: 14px;
+    text-decoration: underline;
+}
+
+.content-rooms {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.content-rooms .thumbnail {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.thumbnail img {
+    width: 320px;
+    height: 212px;
+    background: center no-repeat;
+    background-size: cover;
+    border-radius: 8px;
+}
+
+.thumbnail .thumbnail-title h1 {
+    font-weight: 500;
+    font-size: 16px;
+}
+.thumbnail .thumbnail-title p {
+    font-weight: 400;
+    font-size: 14px;
+}
+
+.content .content-right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+}
+
+.content .booking-box {
+    display: flex;
+    flex-direction: column;
+    width: 370px;
+    height: fit-content;
+    gap: 16px;
+    border-radius: 8px;
+    border-width: 1px;
+    padding: 24px;
+    border: 1px solid rgba(229, 231, 235, 1);
+    box-shadow: 0px 10px 10px 0px rgba(31, 41, 55, 0.04);
+
+    box-shadow: 0px 20px 25px 0px rgba(31, 41, 55, 0.1);
+
+}
+
+.content-right .report {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+
+.booking-header, .row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.booking-box .booking-header h1 > span {
+    font-weight: 400;
+    font-size: 16px;
+}
+
+.booking-box p {
+    text-align: center;
+    font-weight: 400;
+    font-size: 14px;
+}
+
+.booking-box .booking-price-details {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.booking-box .booking-price-details h1, .total h1 {
+    font-weight: 400;
+    font-size: 16px;
+}
+
+.booking-box button {
+    width: 322px;
+    height: fit-content;
+    background: rgba(222, 49, 81, 1);
+    box-shadow: 0px 1px 2px 0px rgba(31, 41, 55, 0.08);
+    color: white;
+    border: none;
+    font-weight: 500;
+    font-size: 14px;
+    gap: 8px;
+    padding: 12px 16px;
+    border-radius: 8px;
+
+}
+
+
+.booking-box .booking-details {
+    display: flex;
+    flex-direction: column;
+    border-radius: 8px;
+}
+
+.booking-details .reservation {
+    display: flex;
+}
+
+.reservation h1 {
+    font-weight: 600;
+    font-size: 10px;
+}
+
+.check-in, .check-out {
+    display: flex;
+    /* width: 100%; */
+    flex-direction: column;
+    /* border: 1px solid; */
+
+}
+
+.check-in input, .check-out input {
+    border: none;
+}
+
+.guest {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 8px;
+    border: 1px solid;
+}
+
+.guest h1 {
+    font-weight: 600;
+    font-size: 10px;
+}
+
+.amenities-container h1 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+.amenities-grid {
+  display: grid;
+
+  grid-template-columns: repeat(2, 1fr);
+
+  grid-row-gap: 20px; 
+
+  align-items: start;
+  margin-bottom: 20px;
+}
+
+.amenity-item {
+  display: flex;
+  align-items: center;
+}
+
+.amenity-icon {
+  font-size: 1.2rem;
+  margin-right: 15px;
+  color: #333; 
+}
+
+.amenity-text {
+  font-size: 1rem;
+  color: #333;
+}
+
+.show-all-button {
+  padding: 10px 15px;
+  border: 1px solid #333;
+  background-color: transparent;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.dates-header {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.calendars {
+    display: flex;
+    gap: 24px;
+}
+
+.actions {
+    display: flex;
+    justify-content: space-between;
+}
+
+.reviews-header {
+    display: flex;
+    gap: 8px;
+}
+
+.review-category {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+}

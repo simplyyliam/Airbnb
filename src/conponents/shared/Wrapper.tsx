@@ -8,7 +8,7 @@ export const Wrapper: React.FC<HtmlHTMLAttributes<HTMLDivElement>> = ({
   return (
     <div className={`${className}`} {...props} style={{
       width: "100vw",
-      height: "100vh",
+      height: "100%",
       padding: "40px"
     }}>
       {children}

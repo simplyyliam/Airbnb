@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import './Home.css'
-import { LandingData } from '../../../lib/landingData'
-import { Navbar, Searchbar } from "../../ui"
+import { LandingData } from '../../../lib'
+import { Navbar, Searchbar } from '../../shared'
 
 export default function Home () {
   return (

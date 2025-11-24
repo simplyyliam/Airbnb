@@ -5,7 +5,7 @@
     height: 100vh;
 }
 
-.wrapper {
+.listing-wrapper {
     display: flex;
     flex-direction: column;
     gap: 24px;

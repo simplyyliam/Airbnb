@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import './Listing.css'
-import { Navbar, Wrapper, Chip } from '../../ui'
+import { Navbar, Wrapper, Chip } from '../../shared'
 import { Link } from 'react-router-dom'
 
 export default function Listings () {
@@ -27,7 +27,7 @@ export default function Listings () {
   return (
     <div className='listing-container'>
       <Navbar />
-      <Wrapper className='wrapper'>
+      <Wrapper className='listing-wrapper'>
         <h1>200+ Airbnb Luxe stays in New York</h1>
 
         <div className='listing-chips'>

@@ -1,2 +1,3 @@
-export { LandingData } from "./landingData";
+export { LandingData } from "./LandingData";
+export { ListingData } from "../conponents/pages/listings/listingsData";
 
