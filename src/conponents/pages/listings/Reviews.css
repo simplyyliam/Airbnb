@@ -1,0 +1,58 @@
+
+.CTA {
+    width: fit-content;
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: 1px solid;
+    background: none;
+}
+
+.ratings {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+.reviews-right h1, .reviews-left h1 {
+    font-weight: 400;
+    font-size: 16px;
+}
+
+
+.reviews-right, .reviews-left {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 16px;
+    width: 100%;
+    padding: 0 80px 0 0 ;
+}
+
+.row {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.ratings-container {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+
+.progress-container {
+  width: 10em; 
+  height: 5px; 
+  background-color: #e0e0e0; 
+  border-radius: 10px;  
+  overflow: hidden;
+}
+
+.rating-bar {
+  width: 75%; 
+  height: 100%;
+  background-color: #000000; 
+  border-radius: 10px; 
+}

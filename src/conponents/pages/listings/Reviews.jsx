@@ -1,57 +1,14 @@
-import Box from '../../shared/Box'
+import { Avatar, Box, ProgressBar } from '../../shared'
+import { reviewsData } from '../../../lib'
+import './Reviews.css'
 
-const reviewsData = [
-  {
-    name: 'Jose',
-    date: 'December 2021',
-    avatar: '/images/avatars/jose.jpg',
-    text: 'Host was very attentive.',
-    rating: 5
-  },
-  {
-    name: 'Shayna',
-    date: 'December 2021',
-    avatar: '/images/avatars/shayna.jpg',
-    text: 'Wonderful neighborhood, easy access to restaurants and the subway, cozy studio apartment with a super comfortable bed. Great host, super helpful and responsive. Cool murphy bed...',
-    rating: 5
-  },
-  {
-    name: 'Luke',
-    date: 'December 2021',
-    avatar: '/images/avatars/luke.jpg',
-    text: 'Nice place to stay!',
-    rating: 5
-  },
-  {
-    name: 'Josh',
-    date: 'November 2021',
-    avatar: '/images/avatars/josh.jpg',
-    text: 'Well designed and fun space, neighborhood has lots of energy and amenities.',
-    rating: 5
-  },
-  {
-    name: 'Vladko',
-    date: 'November 2020',
-    avatar: '/images/avatars/vladko.jpg',
-    text: 'This is amazing place. It has everything one needs for a monthly business stay. Very clean and organized place. Amazing hospitality affordable price.',
-    rating: 5
-  },
-  {
-    name: 'Jennifer',
-    date: 'January 2022',
-    avatar: '/images/avatars/jennifer.jpg',
-    text: 'A centric place, near of a sub station and a supermarket with everything you need.',
-    rating: 5
-  }
-]
-
-export default function ListingsReviews () {
+export default function ListingReviews () {
   const avgRating = (
     reviewsData.reduce((s, r) => s + r.rating, 0) / reviewsData.length
   ).toFixed(1)
 
   return (
-    <Box className='reviews-section'>
+    <Box>
       <div
         className='reviews-header'
         style={{
@@ -65,18 +22,39 @@ export default function ListingsReviews () {
             <span style={{ color: '#ff385c', marginRight: 8 }}>★</span>
             {avgRating} · {reviewsData.length} reviews
           </div>
-          <div style={{ color: '#666', marginTop: 6 }}>
-            Cleanliness · Communication · Check-in
-          </div>
         </div>
-        <button
-          className='show-all-reviews'
-          style={{ padding: '8px 12px', borderRadius: 8 }}
-        >
-          Show all {reviewsData.length} reviews
-        </button>
       </div>
 
+      <div className='ratings'>
+        <div className='reviews-left'>
+          <div className='row'>
+            <h1>Cleanliness</h1>
+            <ProgressBar progress={100} percentage={5.0} />
+          </div>
+          <div className='row'>
+            <h1>Communication</h1>
+            <ProgressBar progress={100} percentage={5.0} />
+          </div>
+          <div className='row'>
+            <h1>Check-in</h1>
+            <ProgressBar progress={100} percentage={5.0} />
+          </div>
+        </div>
+        <div className='reviews-right'>
+          <div className='row'>
+            <h1>Accuracy</h1>
+            <ProgressBar progress={100} percentage={5.0} />
+          </div>
+          <div className='row'>
+            <h1>Location</h1>
+            <ProgressBar progress={90} percentage={4.9} />
+          </div>
+          <div className='row'>
+            <h1>Value</h1>
+            <ProgressBar progress={80} percentage={4.8} />
+          </div>
+        </div>
+      </div>
       <div
         className='reviews-grid'
         style={{
@@ -92,16 +70,7 @@ export default function ListingsReviews () {
             className='review-item'
             style={{ display: 'flex', gap: 12 }}
           >
-            <img
-              src={r.avatar}
-              alt={`${r.name} avatar`}
-              style={{
-                width: 48,
-                height: 48,
-                borderRadius: '50%',
-                objectFit: 'cover'
-              }}
-            />
+            <Avatar src={r.avatar} alt={`${r.name} avatar`} />
             <div>
               <div style={{ fontWeight: 600 }}>{r.name}</div>
               <div style={{ color: '#888', fontSize: 13, marginBottom: 8 }}>
@@ -112,6 +81,7 @@ export default function ListingsReviews () {
           </div>
         ))}
       </div>
+      <button className='CTA'>Show all {reviewsData.length} reviews</button>
     </Box>
   )
 }

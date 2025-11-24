@@ -6,7 +6,11 @@ export default function BookingBox () {
           <h1>
             $79 / <span>night</span>
           </h1>
-          <span>$555</span>
+          <div className='booking-ratings'>
+            <h1>5.0</h1>
+            •
+            <h1>7 reviews</h1>
+          </div>
         </div>
         <div className='booking-details'>
           <div className='reservation'>

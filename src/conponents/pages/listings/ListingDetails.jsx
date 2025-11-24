@@ -1,12 +1,14 @@
 import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import './ListingDetails.css'
-import { Wrapper } from '../../shared'
+import { Avatar, Wrapper } from '../../shared'
 import { ListingData } from '../../../lib'
 import {
   Amenities,
   BookingBox,
   Dates,
+  Host,
+  ListingReviews
 } from '../../../conponents/pages'
 
 export default function ListingDetails () {
@@ -69,9 +71,7 @@ export default function ListingDetails () {
                 <p>1 bath</p>
               </div>
             </div>
-            <div className='avatar'>
-              <img src='/hero.jpg' alt='' />
-            </div>
+            <Avatar src={'/avatar-1.png'} />
           </div>
           <hr />
           <div className='content-details'>
@@ -155,9 +155,13 @@ export default function ListingDetails () {
 
         <BookingBox />
       </div>
-      <div className='content-host'>j</div>
-      <div className='content-about'></div>
-      <footer className='content-footer'></footer>
+
+      <hr />
+      <ListingReviews />
+      <hr />
+      <Host />
+      <hr />
+
     </Wrapper>
   )
 }
