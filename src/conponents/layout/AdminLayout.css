@@ -1,0 +1,13 @@
+
+.admin-header {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    padding: 24px;
+}
+
+.filters {
+    display: flex;
+    gap: 16px;
+}
+
