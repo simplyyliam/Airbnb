@@ -7,5 +7,4 @@ export { default as Dates } from "./listings/Dates";
 export { default as BookingBox } from "./listings/BookingBox";
 export { default as ListingReviews } from "./listings/Reviews";
 export { default as Host } from "./listings/Host";
-
-
+export { default as AdminListing } from "./admin/AdminListings"

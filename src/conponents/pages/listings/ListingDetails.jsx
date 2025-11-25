@@ -161,7 +161,6 @@ export default function ListingDetails () {
       <hr />
       <Host />
       <hr />
-
     </Wrapper>
   )
 }

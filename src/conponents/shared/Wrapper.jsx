@@ -1,6 +1,6 @@
-import { HtmlHTMLAttributes } from "react";
 
-export const Wrapper: React.FC<HtmlHTMLAttributes<HTMLDivElement>> = ({
+
+export const Wrapper = ({
   children,
   className,
   ...props

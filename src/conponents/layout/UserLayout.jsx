@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom'
 import './UserLayout.css'
-import { LandingData } from '../../lib/landingData'
+import { LandingData } from '../../lib'
 
 export default function UserLayout () {
   return (
