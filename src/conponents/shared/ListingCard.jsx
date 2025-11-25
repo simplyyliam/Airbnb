@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-
+import "./ListingCard.css"
 
 export default function ListingCard({ listing }) {
   return (

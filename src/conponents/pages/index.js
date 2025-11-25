@@ -8,3 +8,4 @@ export { default as BookingBox } from "./listings/BookingBox";
 export { default as ListingReviews } from "./listings/Reviews";
 export { default as Host } from "./listings/Host";
 export { default as AdminListing } from "./admin/AdminListings"
+export { default as ReservationList } from "./admin/AdminReservationList"

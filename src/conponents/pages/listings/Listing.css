@@ -12,43 +12,7 @@
 }
 
 
-.listing-card {
-    display: flex;
-    width: 100%;
-    gap: 24px;
-}
 
-.listing-card img {
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    width: 300px;
-    height: 100%;
-    border-radius: 12px;
-}
-
-.listing-content {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    height: 100%;
-    flex-direction: column;
-    gap: 16px;
-}
-
-.listing-header, .listing-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-}
-
-
-.listing-footer h1 {
-    font-family: Inter;
-    font-weight: 500;
-    font-size: 14px;
-}
 
 .listing-chips {
     display: flex;

@@ -8,13 +8,13 @@ export default function AdminLayout () {
       <div className='admin-header'>
         <Navbar />
         <div className='filters'>
-          <Link>
+          <Link to="/admin-reservations">
             <Chip>View Reservations</Chip>
           </Link>
-          <Link>
+          <Link to="/admin-listings">
             <Chip>View Listings</Chip>
           </Link>
-          <Link>
+          <Link to="/create-listings">
             <Chip>Create Listing</Chip>
           </Link>
         </div>
