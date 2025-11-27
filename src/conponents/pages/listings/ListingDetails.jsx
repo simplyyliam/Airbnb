@@ -2,7 +2,6 @@ import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import './ListingDetails.css'
 import { Avatar, Wrapper } from '../../shared'
-import { ListingData } from '../../../lib'
 import {
   Amenities,
   BookingBox,
@@ -10,37 +9,64 @@ import {
   Host,
   ListingReviews
 } from '../../../conponents/pages'
+import { ListingData } from './listingsData'
 
 export default function ListingDetails () {
   const { id } = useParams()
   const [listing, setListing] = useState(null)
-  const [nights, setNights] = useState(1)
+  // const [nights, setNights] = useState(1)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     async function loadListing () {
-      const res = await fetch(`http://localhost:5000/api/listings/${id}`)
-      const data = await res.json()
-      setListing(data)
+      try {
+        const res = await fetch(`http://localhost:5000/api/listings/${id}`)
+
+        if (!res.ok) {
+          throw new Error('Failed to fetch listing')
+        }
+
+        const data = await res.json()
+        setListing(data)
+      } catch (error) {
+        setLoading(false)
+        console.error(error)
+      } finally {
+        setLoading(false)
+      }
     }
     loadListing()
   }, [id])
 
-  if (!listing) return <div className='loading'>Loading...</div>
+  if (loading) return <div className='loading'>Loading...</div>
+  if (!listing) return <div className='loading'>No listing found.</div>
 
-  const cleaningFee = 50
-  const serviceFee = 30
-  const total = listing.price * nights + cleaningFee + serviceFee
+  // const cleaningFee = 50
+  // const serviceFee = 30
+  // const total = listing.price * nights + cleaningFee + serviceFee
+
+  const mainImage =
+    listing.images && listing.images.length > 0
+      ? listing.images[0]
+      : '/default-hero.jpg'
+  const rowImages = listing.images ? listing.images.slice(1, 5) : []
+
+  const hostName = listing.host?.name || 'Ghazal'
+  const hostAvatar = listing.host?.avatar || '/avatar-1.png'
 
   return (
     <Wrapper className='listing-details-wrapper'>
+      {/* Dynamic Header Section */}
       <div className='header'>
-        <h1>Bordeaux Getaway</h1>
+        <h1>{listing.title}</h1>
         <div className='header-details'>
           <div className='left'>
-            <p>5.0</p>
-            <p>7 reviews</p>
+            <p>{listing.ratingsAverage.toFixed(1)}</p>
+            <p>{listing.ratingsQuantity} reviews</p>
             <p>Superhost</p>
-            <p>Bordeaux, France</p>
+            <p>
+              {listing.city}, {listing.country}
+            </p>
           </div>
           <div className='right'>
             <p>Share</p>
@@ -48,31 +74,40 @@ export default function ListingDetails () {
           </div>
         </div>
       </div>
+
+      {/* Dynamic Image Grid */}
       <div className='image-grid'>
         <div className='main'>
-          <img src='/hero.jpg' alt='' />
+          <img src={mainImage} alt={`Main image of ${listing.title}`} />
         </div>
         <div className='rows'>
-          <img className='img-item' src='/hero.jpg' alt='' />
-          <img className='img-item' src='/hero.jpg' alt='' />
-          <img className='img-item' src='/hero.jpg' alt='' />
-          <img className='img-item' src='/hero.jpg' alt='' />
+          {rowImages.map((img, index) => (
+            <img
+              key={index}
+              className='img-item'
+              src={img}
+              alt={`${listing.title} image ${index + 2}`}
+            />
+          ))}
         </div>
       </div>
+
       <div className='content'>
         <div className='content-left'>
+          {/* Dynamic Content Header */}
           <div className='content-header'>
             <div className='title'>
-              <h1>Entire rental unit hosted by Ghazal</h1>
+              <h1>Entire rental unit hosted by {hostName}</h1>
               <div className='info'>
-                <p>2 guests</p>
-                <p>1 bedroom</p>
-                <p>1 bed</p>
-                <p>1 bath</p>
+                <p>{listing.guests} guests</p>
+                <p>{listing.bedrooms} bedroom</p>
+                <p>{listing.bedrooms} bed</p>
+                <p>{listing.bathrooms} bath</p>
               </div>
             </div>
-            <Avatar src={'/avatar-1.png'} />
+            <Avatar src={hostAvatar} />
           </div>
+
           <hr />
           <div className='content-details'>
             {ListingData.Details.map((l, i) => (
@@ -129,9 +164,9 @@ export default function ListingDetails () {
                 <path
                   d='M7.16663 5.83337L9.49996 8.00004L7.16663 10.1667'
                   stroke='black'
-                  stroke-width='1.5'
-                  stroke-linecap='round'
-                  stroke-linejoin='round'
+                  strokeWidth='1.5'
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
                 />
               </svg>
             </div>
@@ -153,7 +188,13 @@ export default function ListingDetails () {
           <Dates />
         </div>
 
-        <BookingBox />
+        <BookingBox
+          listingId={listing._id}
+          price={listing.price}
+          ratingsAverage={listing.ratingsAverage}
+          ratingsQuantity={listing.ratingsQuantity}
+          maxGuests={listing.maxGuests || 4}
+        />
       </div>
 
       <hr />

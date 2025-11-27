@@ -6,7 +6,9 @@
     width: 100%;
 }
 
+/* Wraps all searchbar sections */
 .search-container {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -18,35 +20,40 @@
     color: #000;
 }
 
-.locations .header h1, .check-in .header h1, .checkout .header h1, .guests .header h1 {
+
+
+.locations .header h1,
+.check-in .header h1,
+.checkout .header h1,
+.guests .header h1 {
     font-style: normal;
     font-weight: 600;
     font-size: 12px;
     line-height: 16px;
 }
-.locations .header p, .check-in .header p, .checkout .header p, .guests .header p {
+
+.locations .header p,
+.check-in .header p,
+.checkout .header p,
+.guests .header p {
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
     line-height: 20px;
     color: #6B7280;
 }
-.locations, .check-in, .checkout, .guests {
-    display: flex;
-    align-content: center;
-    gap: 32px;
-}
 
-/* .locations span, .check-in span, .checkout span, .guests span {
+/* Sections layout */
+.locations,
+.check-in,
+.checkout,
+.guests {
     display: flex;
     align-items: center;
-    justify-content: center;
-    background-color: #F7F7F7;
-    border-radius: 6.25px;
-    border: 1px solid #608ff515;
-    width: 37px;
-    height: 37px;
-} */
+    gap: 32px;
+    cursor: pointer; 
+}
+
 
 .search {
     display: flex;
@@ -60,8 +67,52 @@
 }
 
 
+
 .separator {
     height: 32px;
     width: 1px;
     background-color: rgba(229, 231, 235, 1);
+}
+
+.dropdown-modal {
+    position: absolute;
+    background: white;
+    border-radius: 12px;
+    padding: 10px 0;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 14px;
+    z-index: 100;
+}
+
+/* Dropdown items */
+.dropdown-modal p {
+    padding: 10px 15px;
+    margin: 0;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.dropdown-modal p:hover {
+    background-color: #f7f7f7;
+}
+
+
+
+.guest-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+}
+
+.guest-row button {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    background: #ededed;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
