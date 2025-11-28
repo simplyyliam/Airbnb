@@ -47,6 +47,15 @@
     background-color: #f2f2f2;
     border-radius: 100px;
     color: #0A0A0A;
+    /* NEW: Setup for Dropdown Positioning and Interaction */
+    position: relative;
+    cursor: pointer;
+    border: 1px solid transparent; 
+    transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.login:hover {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18);
 }
 
 /* PROFILE IMG */
@@ -60,4 +69,41 @@
 .nav-admin .login {
     background: none;
     border: 1px solid #E5E7EB;
+}
+
+/* --- NEW DROPDOWN STYLES --- */
+
+.dropdown-menu {
+    /* Positioning */
+    position: absolute;
+    top: 100%; 
+    right: 0; 
+    margin-top: 10px; 
+    /* Design */
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.12);
+    z-index: 1000; 
+    min-width: 240px;
+    padding: 8px 0;
+    list-style: none;
+}
+
+.dropdown-item {
+    display: block;
+    padding: 12px 16px;
+    text-decoration: none;
+    color: #222;
+    font-size: 14px;
+    line-height: 18px;
+    transition: background-color 0.1s;
+}
+
+.dropdown-item:hover {
+    background-color: #f7f7f7;
+}
+
+.dropdown-item:nth-child(1) {
+    font-weight: 600;
 }

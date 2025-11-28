@@ -1,9 +1,11 @@
 import { Globe, MenuIcon } from 'lucide-react'
 import { Link, useLocation } from 'react-router-dom'
+import { useState } from 'react'
 import './Navbar.css'
 
 export default function Navbar () {
   const location = useLocation()
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
 
   const isHome = location.pathname === '/'
   const isAdminRoute = location.pathname.startsWith('/admin')
@@ -19,6 +21,23 @@ export default function Navbar () {
   const showUserNavContent = !isAdminRoute
 
   const navLinks = ['Places to stay', 'Experiences', 'Online Experiences']
+
+  // Handler to toggle the dropdown state
+  const toggleDropdown = () => {
+    setIsDropdownOpen(prev => !prev)
+  }
+
+  // Dropdown Content
+  const dropdownContent = (
+    <div className='dropdown-menu'>
+      <Link className='dropdown-item' to='/reservations'>
+        My Reservations
+      </Link>
+      <Link className='dropdown-item' to='/login'>
+        Login
+      </Link>
+    </div>
+  )
 
   return (
     <div className={`nav ${isDarkBackgroundStyle ? 'nav-default' : 'nav-admin'}`}>
@@ -43,11 +62,12 @@ export default function Navbar () {
               <Globe size={20} style={{ color: linkColor }} />
             </Link>
 
-            <div className='login'>
+            <div className='login' onClick={toggleDropdown}>
               <MenuIcon size={20} style={{ color: linkColor }} />
               <div className='profile-img'>
                 <img src='' alt='' />
               </div>
+              {isDropdownOpen && dropdownContent}
             </div>
           </div>
         </>
@@ -60,11 +80,12 @@ export default function Navbar () {
           <div className='nav-end'>
             <Link style={{ color: linkColor }}>John Doe</Link>
 
-            <div className='login'>
+            <div className='login' onClick={toggleDropdown}>
               <MenuIcon size={20} style={{ color: linkColor }} />
               <div className='profile-img'>
                 <img src='' alt='' />
               </div>
+              {isDropdownOpen && dropdownContent}
             </div>
           </div>
         </>
