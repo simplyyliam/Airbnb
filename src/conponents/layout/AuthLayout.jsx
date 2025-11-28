@@ -1,11 +1,13 @@
 import { Outlet } from "react-router-dom";
-import { Wrapper } from "../shared";
+import { Navbar, Wrapper } from "../shared";
+import "./AuthLayout.css"
 
 
 export default function AuthLayout() {
     return (
-        <Wrapper>
+        <div className="auth-container">
+            <Navbar/>
             <Outlet/>
-        </Wrapper>
+        </div>
     )
 }

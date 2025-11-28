@@ -1,0 +1,49 @@
+.auth-container {
+    width: 100vw;    
+    height: 100vh;
+    padding: 41px 31px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: 83px;
+}
+
+form h1 {
+    font-weight: 500;
+    font-size: 30px;
+}
+
+.input-field {
+    display: flex;
+    flex-direction: column;
+    gap: 17px;
+}
+
+form p  {
+    font-weight: 500;
+    font-size: 14px;
+    color: #4153F5;
+}
+
+form .input-field input {
+    width: 464px;
+    height: 55px;
+    border-radius: 7px;
+    border-width: 2px;
+    outline: none;
+    padding-left: 16px;
+    
+}
+
+form button {
+    width: 277px;
+    height: 55px;
+    border-radius: 7px;
+    background-color: #4153F5;
+    color: white;
+    outline: none;
+}
