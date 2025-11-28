@@ -1,10 +1,10 @@
 import { Wrapper } from "../../shared";
 
 
-export default function AdminLoginPage() {
+export default function LoginPage() {
     return (
         <Wrapper>
-            Hello Admin Login
+            Hello Login
         </Wrapper>
     )
 }

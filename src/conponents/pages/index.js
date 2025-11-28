@@ -9,3 +9,6 @@ export { default as ListingReviews } from "./listings/Reviews";
 export { default as Host } from "./listings/Host";
 export { default as AdminListing } from "./admin/AdminListings"
 export { default as ReservationList } from "./admin/AdminReservationList"
+export { default as LoginPage } from "./login/Login"
+export { default as RegisterPage } from "./login/Register"
+export { default as AdminLoginPage } from "./admin/AdminLogin"

@@ -1,7 +1,8 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import UserLayout from './conponents/layout/UserLayout'
-import { AdminListing, ReservationList, Home, ListingDetails, Listings } from './conponents/pages'
+import { AdminListing, ReservationList, Home, ListingDetails, Listings, LoginPage, RegisterPage, AdminLoginPage } from './conponents/pages'
 import AdminLayout from './conponents/layout/AdminLayout'
+import AuthLayout from './conponents/layout/AuthLayout'
 
 export default function App () {
   return (
@@ -17,6 +18,13 @@ export default function App () {
           <Route path='/admin-listings' element={<AdminListing/>}/>
           <Route path='/admin-reservations' element={<ReservationList/>}/>
         </Route>
+
+        <Route element={<AuthLayout/>}>
+          <Route path='/login' element={<LoginPage/>}/>
+          <Route path='/register' element={<RegisterPage/>}/>
+          <Route path='/admin-login' element={<AdminLoginPage/>}/>
+        </Route>
+        
       </Routes>
     </BrowserRouter>
   )

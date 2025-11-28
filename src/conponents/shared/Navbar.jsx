@@ -56,7 +56,7 @@ export default function Navbar () {
           </div>
 
           <div className='nav-end'>
-            <Link style={{ color: linkColor }}>Become a Host</Link>
+            <Link to="/admin-login" style={{ color: linkColor }}>Become a Host</Link>
 
             <Link style={{ color: linkColor }}>
               <Globe size={20} style={{ color: linkColor }} />
