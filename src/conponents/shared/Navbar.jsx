@@ -1,95 +1,106 @@
 import { Globe, MenuIcon } from 'lucide-react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import './Navbar.css'
 
-export default function Navbar () {
+export default function Navbar() {
   const location = useLocation()
+  const navigate = useNavigate()
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+  const [user, setUser] = useState(() => {
+    try {
+      const saved = localStorage.getItem('user')
+      return saved ? JSON.parse(saved) : null
+    } catch {
+      return null
+    }
+  })
 
   const isHome = location.pathname === '/'
   const isAdminRoute = location.pathname.startsWith('/admin')
-
-  // Style logic: True only for the Home page (dark background, light content)
   const isDarkBackgroundStyle = isHome
-
-  // Content color variables based on the style
   const linkColor = isDarkBackgroundStyle ? '#fff' : '#000'
   const logoColor = isDarkBackgroundStyle ? '#fff' : '#DE3151'
 
-  // Layout logic: True for all non-admin routes (Home, Listings, etc.)
-  const showUserNavContent = !isAdminRoute
-
   const navLinks = ['Places to stay', 'Experiences', 'Online Experiences']
 
-  // Handler to toggle the dropdown state
-  const toggleDropdown = () => {
-    setIsDropdownOpen(prev => !prev)
+  const toggleDropdown = () => setIsDropdownOpen(prev => !prev)
+
+  const handleLogout = () => {
+    localStorage.removeItem('user')
+    setUser(null)
+    setIsDropdownOpen(false)
+    navigate('/')
   }
 
-  // Dropdown Content
   const dropdownContent = (
     <div className='dropdown-menu'>
-      <Link className='dropdown-item' to='/reservations'>
-        My Reservations
-      </Link>
-      <Link className='dropdown-item' to='/login'>
-        Login
-      </Link>
+      {!user ? (
+        <>
+          <Link
+            className='dropdown-item'
+            to='/login'
+            state={{ isHostLogin: false }}
+            onClick={() => setIsDropdownOpen(false)}
+          >
+            Login
+          </Link>
+        </>
+      ) : (
+        <Link className='dropdown-item' onClick={handleLogout}>
+          Logout
+        </Link>
+      )}
     </div>
   )
 
   return (
     <div className={`nav ${isDarkBackgroundStyle ? 'nav-default' : 'nav-admin'}`}>
-      {showUserNavContent ? (
-        <>
-          <span className='logo'>
-            <AirbnbLogo color={logoColor} />
-          </span>
+      <span className='logo'>
+        <AirbnbLogo color={logoColor} />
+      </span>
 
-          <div className='nav-links'>
-            {navLinks.map(item => (
-              <Link key={item} style={{ color: linkColor }}>
-                {item}
-              </Link>
-            ))}
-          </div>
-
-          <div className='nav-end'>
-            <Link to="/admin-login" style={{ color: linkColor }}>Become a Host</Link>
-
-            <Link style={{ color: linkColor }}>
-              <Globe size={20} style={{ color: linkColor }} />
+      {!isAdminRoute && (
+        <div className='nav-links'>
+          {navLinks.map(item => (
+            <Link key={item} style={{ color: linkColor }}>
+              {item}
             </Link>
-
-            <div className='login' onClick={toggleDropdown}>
-              <MenuIcon size={20} style={{ color: linkColor }} />
-              <div className='profile-img'>
-                <img src='' alt='' />
-              </div>
-              {isDropdownOpen && dropdownContent}
-            </div>
-          </div>
-        </>
-      ) : (
-        <>
-          <span className='logo'>
-            <AirbnbLogo color={logoColor} />
-          </span>
-
-          <div className='nav-end'>
-            <Link style={{ color: linkColor }}>John Doe</Link>
-
-            <div className='login' onClick={toggleDropdown}>
-              <MenuIcon size={20} style={{ color: linkColor }} />
-              <div className='profile-img'>
-                <img src='' alt='' />
-              </div>
-              {isDropdownOpen && dropdownContent}
-            </div>
-          </div>
-        </>
+          ))}
+        </div>
       )}
+
+      <div className='nav-end'>
+        {!user ? (
+          <>
+            {!isAdminRoute && (
+              <Link
+                to='/register'
+                state={{ isHostRegister: true }}
+                style={{ color: linkColor, marginRight: 12 }}
+              >
+                Become a Host
+              </Link>
+            )}
+          </>
+        ) : (
+          <span style={{ color: linkColor }}>{user.name}</span>
+        )}
+
+        {!isAdminRoute && (
+          <Link style={{ color: linkColor }}>
+            <Globe size={20} />
+          </Link>
+        )}
+
+        <div className='login' onClick={toggleDropdown}>
+          <MenuIcon size={20} style={{ color: linkColor }} />
+          <div className='profile-img'>
+            <img src='' alt='' />
+          </div>
+          {isDropdownOpen && dropdownContent}
+        </div>
+      </div>
     </div>
   )
 }
