@@ -4,42 +4,30 @@ import './Navbar.css'
 
 export default function Navbar () {
   const location = useLocation()
-  const isAdmin = location.pathname.startsWith('/admin')
 
-  const linkColor = isAdmin ? '#000' : '#fff'
-  const logoColor = isAdmin ? '#DE3151' : '#fff'
+  const isHome = location.pathname === '/'
+  const isAdminRoute = location.pathname.startsWith('/admin')
+
+  // Style logic: True only for the Home page (dark background, light content)
+  const isDarkBackgroundStyle = isHome
+
+  // Content color variables based on the style
+  const linkColor = isDarkBackgroundStyle ? '#fff' : '#000'
+  const logoColor = isDarkBackgroundStyle ? '#fff' : '#DE3151'
+
+  // Layout logic: True for all non-admin routes (Home, Listings, etc.)
+  const showUserNavContent = !isAdminRoute
 
   const navLinks = ['Places to stay', 'Experiences', 'Online Experiences']
 
   return (
-    <div className={`nav ${isAdmin ? 'nav-admin' : 'nav-default'}`}>
-      {isAdmin ? (
+    <div className={`nav ${isDarkBackgroundStyle ? 'nav-default' : 'nav-admin'}`}>
+      {showUserNavContent ? (
         <>
-          {/* Logo */}
           <span className='logo'>
             <AirbnbLogo color={logoColor} />
           </span>
 
-          {/* Right side icons */}
-          <div className='nav-end'>
-            <Link style={{ color: linkColor }}>John Doe</Link>
-
-            <div className='login'>
-              <MenuIcon size={20} />
-              <div className='profile-img'>
-                <img src='' alt='' />
-              </div>
-            </div>
-          </div>
-        </>
-      ) : (
-        <>
-          {/* Logo */}
-          <span className='logo'>
-            <AirbnbLogo color={logoColor} />
-          </span>
-
-          {/* Middle Links */}
           <div className='nav-links'>
             {navLinks.map(item => (
               <Link key={item} style={{ color: linkColor }}>
@@ -48,16 +36,32 @@ export default function Navbar () {
             ))}
           </div>
 
-          {/* Right side icons */}
           <div className='nav-end'>
             <Link style={{ color: linkColor }}>Become a Host</Link>
 
             <Link style={{ color: linkColor }}>
-              <Globe />
+              <Globe size={20} style={{ color: linkColor }} />
             </Link>
 
             <div className='login'>
-              <MenuIcon size={20} />
+              <MenuIcon size={20} style={{ color: linkColor }} />
+              <div className='profile-img'>
+                <img src='' alt='' />
+              </div>
+            </div>
+          </div>
+        </>
+      ) : (
+        <>
+          <span className='logo'>
+            <AirbnbLogo color={logoColor} />
+          </span>
+
+          <div className='nav-end'>
+            <Link style={{ color: linkColor }}>John Doe</Link>
+
+            <div className='login'>
+              <MenuIcon size={20} style={{ color: linkColor }} />
               <div className='profile-img'>
                 <img src='' alt='' />
               </div>
@@ -69,9 +73,6 @@ export default function Navbar () {
   )
 }
 
-/* -----------------------
-   Logo Extracted to Component
------------------------- */
 function AirbnbLogo ({ color }) {
   return (
     <svg

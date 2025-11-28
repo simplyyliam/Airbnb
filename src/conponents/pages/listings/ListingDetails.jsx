@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import './ListingDetails.css'
-import { Avatar, Wrapper } from '../../shared'
+import { Avatar, Navbar, Wrapper } from '../../shared'
 import {
   Amenities,
   BookingBox,
@@ -56,6 +56,7 @@ export default function ListingDetails () {
 
   return (
     <Wrapper className='listing-details-wrapper'>
+      <Navbar/>
       {/* Dynamic Header Section */}
       <div className='header'>
         <h1>{listing.title}</h1>
@@ -200,7 +201,7 @@ export default function ListingDetails () {
       <hr />
       <ListingReviews />
       <hr />
-      <Host />
+      <Host host={hostName}/>
       <hr />
     </Wrapper>
   )

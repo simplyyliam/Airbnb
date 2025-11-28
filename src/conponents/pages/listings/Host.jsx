@@ -1,14 +1,14 @@
 import { Avatar, Box } from '../../shared'
 import './Host.css'
 
-export default function Host () {
+export default function Host ({host}) {
   return (
     <Box>
       <div className='host-header'>
         <div className='host-user'>
           <Avatar src='/avatar-1.png' alt='host avatar' />
           <div className='user-header'>
-            <h1>Host by Ghazal</h1>
+            <h1>{`Hosted by ${host}`}</h1>
             <p>Joined May 2021</p>
           </div>
         </div>
