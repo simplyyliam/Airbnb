@@ -1,11 +1,16 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import './CreateListing.css'
 import { Wrapper } from '../../shared'
 import axios from 'axios'
 import { useAuth } from '../../../hooks'
 
-export default function CreateListing () {
+export default function CreateListing() {
   const { currentUser, isHost, loading, token } = useAuth()
+  const location = useLocation()
+  const navigate = useNavigate()
+
+  const editingListing = location.state?.listing || null
 
   const [form, setForm] = useState({
     title: '',
@@ -17,11 +22,24 @@ export default function CreateListing () {
     price: 0,
     guests: 1,
     description: '',
-    images: []
+    images: ''
   })
 
   const [amenity, setAmenity] = useState('')
   const [amenities, setAmenities] = useState([])
+
+  // Prefill form if editing
+  useEffect(() => {
+    if (editingListing) {
+      setForm({
+        ...editingListing,
+        images: Array.isArray(editingListing.images)
+          ? editingListing.images.join('\n')
+          : editingListing.images
+      })
+      setAmenities(editingListing.amenities || [])
+    }
+  }, [editingListing])
 
   const handleChange = e => {
     setForm({ ...form, [e.target.name]: e.target.value })
@@ -34,7 +52,7 @@ export default function CreateListing () {
     }
   }
 
-  const createListing = async () => {
+  const handleSubmit = async () => {
     if (loading) return
     if (!currentUser || !isHost) {
       alert('❌ You must be logged in as a host to create a listing')
@@ -45,29 +63,37 @@ export default function CreateListing () {
       const payload = {
         ...form,
         amenities,
-        images:
-          typeof form.images === 'string'
-            ? form.images.split('\n')
-            : form.images
+        images: typeof form.images === 'string' ? form.images.split('\n') : form.images
       }
 
-      const res = await axios.post(
-        'http://localhost:5000/api/listings',
-        payload,
-        { headers: { Authorization: `Bearer ${token}` } }
-      )
+      if (editingListing) {
+        // Update existing listing
+        await axios.put(
+          `http://localhost:5000/api/listings/${editingListing._id}`,
+          payload,
+          { headers: { Authorization: `Bearer ${token}` } }
+        )
+        alert('✅ Listing updated successfully!')
+      } else {
+        // Create new listing
+        await axios.post(
+          'http://localhost:5000/api/listings',
+          payload,
+          { headers: { Authorization: `Bearer ${token}` } }
+        )
+        alert('✅ Listing created successfully!')
+      }
 
-      alert('✅ Listing created successfully!')
-      console.log(res.data)
+      navigate('/admin-listings')
     } catch (err) {
       console.error(err.response?.data || err)
-      alert('❌ Failed to create listing')
+      alert('❌ Failed to save listing')
     }
   }
 
   return (
     <Wrapper className='create-container'>
-      <h1 className='title'>Create Listing</h1>
+      <h1 className='title'>{editingListing ? 'Edit Listing' : 'Create Listing'}</h1>
 
       <div className='form-grid'>
         <div className='form-group'>
@@ -169,7 +195,7 @@ export default function CreateListing () {
               value={amenity}
               onChange={e => setAmenity(e.target.value)}
             />
-            <button className='add-btn' onClick={addAmenity}>
+            <button type='button' className='add-btn' onClick={addAmenity}>
               Add
             </button>
           </div>
@@ -195,13 +221,18 @@ export default function CreateListing () {
       <div className='actions'>
         <button
           className='create-btn'
-          onClick={createListing}
+          onClick={handleSubmit}
           disabled={loading}
         >
-          {loading ? 'Loading...' : 'Create'}
+          {loading ? 'Loading...' : editingListing ? 'Update' : 'Create'}
         </button>
 
-        <button className='cancel-btn'>Cancel</button>
+        <button
+          className='cancel-btn'
+          onClick={() => navigate('/admin-listings')}
+        >
+          Cancel
+        </button>
       </div>
     </Wrapper>
   )
