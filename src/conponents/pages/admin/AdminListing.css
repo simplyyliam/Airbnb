@@ -1,3 +1,31 @@
 .admin-listing-container {
     padding: 40px;
 }
+
+
+.admin-listing-card {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.admin-listing-card button {
+    width: 300px;
+    height: 44px;
+    gap: 8px;
+    border-radius: 8px;;
+    padding: 12px 16px;
+    border: none;
+    color: white;
+}
+
+a {
+    width: fit-content;
+}
+
+#update {
+    background-color: #4153F5;
+}
+#delete {
+    background-color: #DE3151;
+}

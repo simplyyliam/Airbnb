@@ -85,3 +85,25 @@ export const cancelBooking = asyncHandler(async (req, res) => {
   await booking.save();
   res.json({ message: "Booking cancelled" });
 });
+
+
+// GET all bookings for listings owned by the host
+export const getHostBookings = asyncHandler(async (req, res) => {
+  const hostId = req.user._id;
+
+  // Find all listings that belong to this host
+  const hostListings = await Listing.find({ host: hostId });
+
+  if (hostListings.length === 0) {
+    return res.json([]); 
+  }
+
+  const listingIds = hostListings.map(listing => listing._id);
+
+  // Find bookings on these listings
+  const bookings = await Booking.find({ listing: { $in: listingIds } })
+    .populate("user", "name email")
+    .populate("listing", "title location");
+
+  res.json(bookings);
+});
