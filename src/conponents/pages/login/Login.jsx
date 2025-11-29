@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { useNavigate, useLocation, Link } from 'react-router-dom'
 import './Login.css'
 
-export default function LoginPage() {
+export default function LoginPage () {
   const navigate = useNavigate()
   const location = useLocation()
   const isUserLogin = location.state?.isUserLogin
@@ -12,43 +12,40 @@ export default function LoginPage() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  setError('');
+  const handleSubmit = async e => {
+    e.preventDefault()
+    setError('')
 
-  try {
-    const res = await fetch('http://localhost:5000/api/auth/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password }),
-    });
+    try {
+      const res = await fetch('http://localhost:5000/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      })
 
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.message || 'Login failed');
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.message || 'Login failed')
 
+      localStorage.setItem('token', data.token)
+      localStorage.setItem('user', JSON.stringify(data.user))
 
-    localStorage.setItem('user', JSON.stringify(data));
-
-
-    if (isUserLogin) {
-
-      if (data.isHost) {
-        setError('This account is a host. Use "Become a Host" to log in.');
-        return;
+      if (isUserLogin) {
+        if (data.user.isHost) {
+          setError('This account is a host. Use "Become a Host" to log in.')
+          return
+        }
+        navigate('/listings')
+      } else {
+        if (!data.user.isHost) {
+          setError('This account is not a host. Use normal login.')
+          return
+        }
+        navigate('/admin-listings')
       }
-      navigate('/listings'); 
-    } else {
-
-      if (!data.isHost) {
-        setError('This account is not a host. Use normal login.');
-        return;
-      }
-      navigate('/admin-listings'); 
+    } catch (err) {
+      setError(err.message)
     }
-  } catch (err) {
-    setError(err.message);
   }
-};
 
   return (
     <Wrapper className='login-container'>
