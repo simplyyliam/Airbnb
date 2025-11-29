@@ -14,7 +14,7 @@ export default function AdminLayout () {
           <Link to="/admin-listings">
             <Chip>View Listings</Chip>
           </Link>
-          <Link to="/create-listings">
+          <Link to="/admin-create">
             <Chip>Create Listing</Chip>
           </Link>
         </div>

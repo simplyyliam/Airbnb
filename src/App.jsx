@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import UserLayout from './conponents/layout/UserLayout'
-import { AdminListing, ReservationList, Home, ListingDetails, Listings, LoginPage, RegisterPage } from './conponents/pages'
+import { AdminListing, ReservationList, Home, ListingDetails, Listings, LoginPage, RegisterPage, CreateListing } from './conponents/pages'
 import AdminLayout from './conponents/layout/AdminLayout'
 import AuthLayout from './conponents/layout/AuthLayout'
 
@@ -17,6 +17,7 @@ export default function App () {
         <Route element={<AdminLayout/>}>
           <Route path='/admin-listings' element={<AdminListing/>}/>
           <Route path='/admin-reservations' element={<ReservationList/>}/>
+          <Route path='/admin-create' element={<CreateListing/>}/>
         </Route>
 
         <Route element={<AuthLayout/>}>
