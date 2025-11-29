@@ -107,3 +107,25 @@ export const getHostBookings = asyncHandler(async (req, res) => {
 
   res.json(bookings);
 });
+
+export const deleteBooking = asyncHandler(async (req, res) => {
+  const booking = await Booking.findById(req.params.id);
+  if (!booking) {
+    res.status(404);
+    throw new Error("Booking not found");
+  }
+
+  // Only the user who created the booking OR the host can delete it
+  const listing = await Listing.findById(booking.listing);
+
+  const isOwner = booking.user.toString() === req.user._id.toString();
+  const isHost = listing.host.toString() === req.user._id.toString();
+
+  if (!isOwner && !isHost) {
+    res.status(403);
+    throw new Error("You do not have permission to delete this booking");
+  }
+
+  await booking.deleteOne();
+  res.json({ message: "Booking deleted successfully" });
+});

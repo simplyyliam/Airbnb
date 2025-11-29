@@ -6,12 +6,19 @@ export default function ReservationList() {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const token = localStorage.getItem("token"); // whatever you're using for auth
+  const token = localStorage.getItem("token");
+  const user = JSON.parse(localStorage.getItem("user")); // get current user
+  const isHost = user?.isHost;
+  const userId = user?._id;
 
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/bookings/host/me", {
+        const url = isHost
+          ? "http://localhost:5000/api/bookings/host/me"
+          : `http://localhost:5000/api/bookings/user/${userId}`;
+
+        const res = await fetch(url, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -20,14 +27,14 @@ export default function ReservationList() {
         const data = await res.json();
         setBookings(data);
       } catch (error) {
-        console.error("Failed to fetch host bookings:", error);
+        console.error("Failed to fetch bookings:", error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchBookings();
-  }, [token]);
+    if (userId && token) fetchBookings();
+  }, [token, userId, isHost]);
 
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this booking?")) return;
@@ -55,7 +62,7 @@ export default function ReservationList() {
       <table className="bookings-table">
         <thead>
           <tr>
-            <th>Booked by</th>
+            <th>{isHost ? "Booked by" : "My Name"}</th>
             <th>Property</th>
             <th>Check-in</th>
             <th>Check-out</th>
@@ -73,7 +80,11 @@ export default function ReservationList() {
           ) : (
             bookings.map((booking) => (
               <tr key={booking._id}>
-                <td>{booking.user?.name || "Unknown"}</td>
+                <td>
+                  {isHost
+                    ? booking.user?.name || "Unknown"
+                    : user?.name || "Me"}
+                </td>
                 <td>{booking.listing?.title || "Deleted listing"}</td>
                 <td>{booking.startDate?.substring(0, 10)}</td>
                 <td>{booking.endDate?.substring(0, 10)}</td>
