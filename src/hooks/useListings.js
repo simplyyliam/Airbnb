@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 
-export function useListings() {
+
+
+export function useListings(hostId = null) {
   const [listings, setListings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -8,7 +10,10 @@ export function useListings() {
   useEffect(() => {
     async function loadListings() {
       try {
-        const res = await fetch("http://localhost:5000/api/listings");
+        let url = "http://localhost:5000/api/listings";
+        if (hostId) url += `?host=${hostId}`;
+
+        const res = await fetch(url);
         if (!res.ok) throw new Error("Failed to fetch listings");
 
         const data = await res.json();
@@ -21,7 +26,7 @@ export function useListings() {
     }
 
     loadListings();
-  }, []);
+  }, [hostId]);
 
   return { listings, loading, error };
 }

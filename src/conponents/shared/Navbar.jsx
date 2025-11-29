@@ -77,7 +77,7 @@ export default function Navbar () {
             {!isAdminRoute && (
               <Link
                 to='/login'
-                state={{ isUserLogin: false }} // false = host login
+                state={{ isUserLogin: false }} 
                 style={{ color: linkColor, marginRight: 12 }}
               >
                 Become a Host

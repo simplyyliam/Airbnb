@@ -4,14 +4,18 @@ import Listing from "../models/Listing.js";
 /* The `export const getListings` function is a controller function that handles the logic
 of fetching listings based on certain criteria. */
 export const getListings = asyncHandler(async (req, res) => {
-  const { city, minPrice, maxPrice, guests, q } = req.query;
+  const { city, minPrice, maxPrice, guests, q, host } = req.query;
   const filter = { active: true };
+
+
   if (city) filter.city = new RegExp(city, "i");
   if (minPrice || maxPrice) filter.price = {};
   if (minPrice) filter.price.$gte = Number(minPrice);
   if (maxPrice) filter.price.$lte = Number(maxPrice);
   if (guests) filter.guests = { $gte: Number(guests) };
   if (q) filter.$text = { $search: q };
+
+  if (host) filter.host = host;
 
   const listings = await Listing.find(filter).populate("host", "name avatar"); 
   res.json(listings);
