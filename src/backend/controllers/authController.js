@@ -30,9 +30,9 @@ export const registerUser = asyncHandler(async (req, res) => {
 
 /* The `loginUser` function is responsible for handling the login functionality. */
 export const loginUser = asyncHandler(async (req, res) => {
-  const { email, password } = req.body;
+  const { name, password } = req.body;
 
-  const user = await User.findOne({ email });
+  const user = await User.findOne({ name });
   if (user && (await user.matchPassword(password))) {
     res.json({
       _id: user._id,

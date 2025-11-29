@@ -1,59 +1,59 @@
-import { Wrapper } from '../../shared'
-import { useState } from 'react'
-import { useNavigate, useLocation } from 'react-router-dom'
-import './Login.css'
+import { Wrapper } from '../../shared';
+import { useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import './Login.css';
 
 export default function RegisterPage() {
-  const navigate = useNavigate()
-  const location = useLocation()
-  const isUserRegister = location.state?.isUserRegister 
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
+  const isUserRegister = location.state?.isUserRegister ?? false;
+  const isHostRegistration = location.state?.isHostRegister ?? !isUserRegister;
 
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
-const isHostRegistration = location.state?.isHostRegister ?? false; 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
 
-const handleSubmit = async e => {
-  e.preventDefault()
-  setError('')
+    try {
+      const res = await fetch('http://localhost:5000/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name,
+          email,
+          password,
+          isHost: isHostRegistration, 
+        }),
+      });
 
-  try {
-    const res = await fetch('http://localhost:5000/api/auth/register', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        name,
-        email,
-        password,
-        isHost: isHostRegistration // true for host, false for general user
-      })
-    })
+      const data = await res.json();
 
-    const data = await res.json()
+      if (!res.ok) throw new Error(data.message || 'Registration failed');
 
-    if (!res.ok) throw new Error(data.message || 'Registration failed')
+      // Save user to localStorage
+      localStorage.setItem('user', JSON.stringify(data));
+      localStorage.setItem('token', data.token || '');
 
-    localStorage.setItem('user', JSON.stringify(data))
-
-    // Navigate based on host status
-    if (data.isHost) {
-      navigate('/admin-listings')
-    } else {
-      navigate('/listings')
+      // Navigate based on host status
+      if (data.isHost) {
+        navigate('/admin-listings');
+      } else {
+        navigate('/listings');
+      }
+    } catch (err) {
+      setError(err.message);
     }
-  } catch (err) {
-    setError(err.message)
-  }
-}
-
+  };
 
   return (
     <Wrapper className='login-container'>
       <form onSubmit={handleSubmit}>
-        <h1>{isUserRegister ? 'User Register' : 'Host Register'}</h1>
+        <h1>{isHostRegistration ? 'Host Register' : 'User Register'}</h1>
         {error && <p className='error'>{error}</p>}
 
         <div className='input-field'>
@@ -61,7 +61,7 @@ const handleSubmit = async e => {
           <input
             type='text'
             value={name}
-            onChange={e => setName(e.target.value)}
+            onChange={(e) => setName(e.target.value)}
             required
           />
         </div>
@@ -71,7 +71,7 @@ const handleSubmit = async e => {
           <input
             type='email'
             value={email}
-            onChange={e => setEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
             required
           />
         </div>
@@ -81,7 +81,7 @@ const handleSubmit = async e => {
           <input
             type='password'
             value={password}
-            onChange={e => setPassword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
             required
           />
         </div>
@@ -89,5 +89,5 @@ const handleSubmit = async e => {
         <button type='submit'>Register</button>
       </form>
     </Wrapper>
-  )
+  );
 }

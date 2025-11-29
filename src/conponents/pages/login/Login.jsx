@@ -1,51 +1,67 @@
-import { Wrapper } from '../../shared'
-import { useState } from 'react'
-import { useNavigate, useLocation, Link } from 'react-router-dom'
-import './Login.css'
+import { Wrapper } from '../../shared';
+import { useState } from 'react';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
+import './Login.css';
 
-export default function LoginPage () {
-  const navigate = useNavigate()
-  const location = useLocation()
-  const isUserLogin = location.state?.isUserLogin
+export default function LoginPage() {
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
+  const isUserLogin = location.state?.isUserLogin ?? true; // true = normal user
 
-  const handleSubmit = async e => {
-    e.preventDefault()
-    setError('')
+  const [name, setName] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
 
     try {
-      const res = await fetch('http://localhost:5000/api/auth/login', {
+      const loginRes = await fetch('http://localhost:5000/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
-      })
+        body: JSON.stringify({ name, password }), // login with name
+      });
 
-      const data = await res.json()
-      if (!res.ok) throw new Error(data.message || 'Login failed')
+      const loginData = await loginRes.json();
 
-      localStorage.setItem('token', data.token)
-      localStorage.setItem('user', JSON.stringify(data.user))
-
-      if (isUserLogin) {
-        if (data.user.isHost) {
-          setError('This account is a host. Use "Become a Host" to log in.')
-          return
+      if (loginRes.ok) {
+        // Ensure loginData has user
+        if (!loginData.name) {
+          setError('Login failed: user not found');
+          return;
         }
-        navigate('/listings')
-      } else {
-        if (!data.user.isHost) {
-          setError('This account is not a host. Use normal login.')
-          return
+
+        // Prevent logging in with wrong account type
+        if (isUserLogin && loginData.isHost) {
+          setError('This account is a host. Use "Become a Host" to log in.');
+          return;
         }
-        navigate('/admin-listings')
+        if (!isUserLogin && !loginData.isHost) {
+          setError('This account is not a host. Use normal login.');
+          return;
+        }
+
+        // Save user info & token
+        localStorage.setItem('token', loginData.token);
+        localStorage.setItem('user', JSON.stringify(loginData));
+
+        navigate(isUserLogin ? '/listings' : '/admin-listings');
+        return;
       }
+
+      // Redirect to registration if user not found
+      if (loginData.message === 'User not found' || loginData.message === 'Invalid credentials') {
+        navigate('/register', { state: { isUserRegister: isUserLogin } });
+        return;
+      }
+
+      setError(loginData.message || 'Login failed');
     } catch (err) {
-      setError(err.message)
+      setError(err.message);
     }
-  }
+  };
 
   return (
     <Wrapper className='login-container'>
@@ -54,11 +70,11 @@ export default function LoginPage () {
         {error && <p className='error'>{error}</p>}
 
         <div className='input-field'>
-          <p>Email</p>
+          <p>Username</p>
           <input
-            type='email'
-            value={email}
-            onChange={e => setEmail(e.target.value)}
+            type='text'
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             required
           />
         </div>
@@ -68,7 +84,7 @@ export default function LoginPage () {
           <input
             type='password'
             value={password}
-            onChange={e => setPassword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
             required
           />
         </div>
@@ -77,11 +93,11 @@ export default function LoginPage () {
 
         <p className='register-link'>
           Don't have an account?{' '}
-          <Link to='/register' state={{ isUserLogin }}>
+          <Link to='/register' state={{ isUserRegister: isUserLogin }}>
             Register
           </Link>
         </p>
       </form>
     </Wrapper>
-  )
+  );
 }

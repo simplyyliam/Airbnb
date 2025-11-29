@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import './Navbar.css'
 
-export default function Navbar() {
+export default function Navbar () {
   const location = useLocation()
   const navigate = useNavigate()
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
@@ -40,8 +40,7 @@ export default function Navbar() {
           <Link
             className='dropdown-item'
             to='/login'
-            state={{ isHostLogin: false }}
-            onClick={() => setIsDropdownOpen(false)}
+            state={{ isUserLogin: true }} // General user login
           >
             Login
           </Link>
@@ -55,7 +54,9 @@ export default function Navbar() {
   )
 
   return (
-    <div className={`nav ${isDarkBackgroundStyle ? 'nav-default' : 'nav-admin'}`}>
+    <div
+      className={`nav ${isDarkBackgroundStyle ? 'nav-default' : 'nav-admin'}`}
+    >
       <span className='logo'>
         <AirbnbLogo color={logoColor} />
       </span>
@@ -75,8 +76,8 @@ export default function Navbar() {
           <>
             {!isAdminRoute && (
               <Link
-                to='/register'
-                state={{ isHostRegister: true }}
+                to='/login'
+                state={{ isUserLogin: false }} // false = host login
                 style={{ color: linkColor, marginRight: 12 }}
               >
                 Become a Host
