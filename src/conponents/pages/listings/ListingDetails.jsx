@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from "../../../api/axios"
 import './ListingDetails.css';
 import { Avatar, Navbar, Wrapper } from '../../shared';
 import {
@@ -17,19 +17,20 @@ export default function ListingDetails() {
   const [listing, setListing] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    async function loadListing() {
-      try {
-        const { data } = await axios.get(`http://localhost:5000/api/listings/${id}`);
-        setListing(data);
-      } catch (error) {
-        console.error('Failed to fetch listing:', error);
-      } finally {
-        setLoading(false);
-      }
+
+useEffect(() => {
+  async function loadListing() {
+    try {
+      const { data } = await api.get(`/listings/${id}`);
+      setListing(data);
+    } catch (error) {
+      console.error('Failed to fetch listing:', error);
+    } finally {
+      setLoading(false);
     }
-    loadListing();
-  }, [id]);
+  }
+  loadListing();
+}, [id]);
 
   if (loading) return <div className='loading'>Loading...</div>;
   if (!listing) return <div className='loading'>No listing found.</div>;

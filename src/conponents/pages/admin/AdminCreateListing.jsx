@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import './CreateListing.css'
 import { Wrapper } from '../../shared'
-import axios from 'axios'
 import { useAuth } from '../../../hooks'
+import api from "../../../api/axios"
 
 export default function CreateListing() {
   const { currentUser, isHost, loading, token } = useAuth()
@@ -68,16 +68,16 @@ export default function CreateListing() {
 
       if (editingListing) {
         // Update existing listing
-        await axios.put(
-          `http://localhost:5000/api/listings/${editingListing._id}`,
+        await api.put(
+          `/api/listings/${editingListing._id}`,
           payload,
           { headers: { Authorization: `Bearer ${token}` } }
         )
         alert('✅ Listing updated successfully!')
       } else {
         // Create new listing
-        await axios.post(
-          'http://localhost:5000/api/listings',
+        await api.post(
+          '/api/listings',
           payload,
           { headers: { Authorization: `Bearer ${token}` } }
         )

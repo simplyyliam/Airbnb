@@ -1,43 +1,21 @@
 import { useState, useMemo } from 'react'
-
-const useAuth = () => {
-  const [currentUser, setCurrentUser] = useState(() => {
-    try {
-      const saved = localStorage.getItem('user')
-      return saved ? JSON.parse(saved) : null
-    } catch {
-      return null
-    }
-  })
-
-  const promptLogin = () => alert('Please log in to make a reservation.')
-
-  return {
-    currentUser,
-    isLoggedIn: !!currentUser,
-    isHost: currentUser?.isHost || false,
-    userToken: currentUser?.token || '',
-    promptLogin
-  }
-}
+import api from '../../../api/axios'
+import useAuth from '../../../hooks/useAuth'
 
 const calculateNights = (start, end) => {
   if (!start || !end) return 0
-
   const startDate = new Date(start)
   const endDate = new Date(end)
   startDate.setHours(0, 0, 0, 0)
   endDate.setHours(0, 0, 0, 0)
-
   const differenceMs = endDate.getTime() - startDate.getTime()
   if (differenceMs <= 0) return 0
-
   return Math.round(differenceMs / (1000 * 60 * 60 * 24))
 }
 
 export default function BookingBox ({
   listingId,
-  hostId,
+  // hostId,
   price,
   ratingsAverage,
   ratingsQuantity,
@@ -78,55 +56,45 @@ export default function BookingBox ({
       promptLogin()
       return
     }
-
     if (isHost) {
       alert('Hosts cannot make reservations on the platform.')
       return
     }
-
     if (nights <= 0) {
       alert('Please select valid check-in and check-out dates.')
       return
     }
-
     if (guests > maxGuests) {
       alert(`This listing only accommodates a maximum of ${maxGuests} guests.`)
       return
     }
 
     const bookingData = {
-      listingId: listingId,      
+      listingId,
       startDate: checkInDate,
       endDate: checkOutDate,
-      guests: guests
+      guests
     }
 
     try {
-      const res = await fetch('http://localhost:5000/api/bookings', {
-        method: 'POST',
+      const res = await api.post('/api/bookings', bookingData, {
         headers: {
-          'Content-Type': 'application/json',
           Authorization: `Bearer ${userToken}`
-        },
-        body: JSON.stringify(bookingData)
-      });
+        }
+      })
 
-      if (res.ok) {
-        const data = await res.json()
-        alert(
-          `✅ Reservation successful! Total: $${total.toFixed(
-            2
-          )}. Booking ID: ${data._id}`
-        )
-      } else {
-        const errorData = await res.json();
-        console.error('Booking error:', errorData);
-        alert(`❌ Reservation failed: ${errorData.message || 'Something went wrong.'}`);
-        return;
-      }
+      alert(
+        `✅ Reservation successful! Total: $${total.toFixed(
+          2
+        )}. Booking ID: ${res.data._id}`
+      )
     } catch (error) {
-      console.error('Booking fetch error:', error)
-      alert('❌ An unexpected error occurred during reservation.')
+      console.error('Booking error:', error.response?.data || error)
+      alert(
+        `❌ Reservation failed: ${
+          error.response?.data?.message || 'Something went wrong.'
+        }`
+      )
     }
   }
 

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../../../api";
 
 export function useAuth() {
   const [currentUser, setCurrentUser] = useState(null);
@@ -14,7 +14,7 @@ export function useAuth() {
       }
 
       try {
-        const res = await axios.get("http://localhost:5000/api/auth/me", {
+        const res = await api.get("/auth/me", {
           headers: { Authorization: `Bearer ${token}` },
         });
         setCurrentUser(res.data);

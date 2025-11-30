@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-
-
+import api from "../../../api";
 
 export function useListings({ hostId = null, city = null } = {}) {
   const [listings, setListings] = useState([]);
@@ -10,22 +9,12 @@ export function useListings({ hostId = null, city = null } = {}) {
   useEffect(() => {
     async function loadListings() {
       try {
-        let url = "http://localhost:5000/api/listings";
+        const params = {};
+        if (hostId) params.host = hostId;
+        if (city) params.city = city;
 
-        const params = new URLSearchParams();
-
-        if (hostId) params.append("host", hostId);
-        if (city) params.append("city", city);
-
-        if ([...params].length > 0) {
-          url += `?${params.toString()}`;
-        }
-
-        const res = await fetch(url);
-        if (!res.ok) throw new Error("Failed to fetch listings");
-
-        const data = await res.json();
-        setListings(data);
+        const res = await api.get("/listings", { params });
+        setListings(res.data);
       } catch (err) {
         setError(err.message || "Something went wrong");
       } finally {

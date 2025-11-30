@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../../../api'; // adjust path
 import { Avatar, Box, ProgressBar } from '../../shared';
 import './Reviews.css';
 
@@ -12,9 +12,7 @@ export default function ListingReviews({ listingId }) {
 
     async function fetchReviews() {
       try {
-        const { data } = await axios.get(
-          `http://localhost:5000/api/reviews/listing/${listingId}`
-        );
+        const { data } = await api.get(`/reviews/listing/${listingId}`);
         setReviews(data);
       } catch (err) {
         console.error('Failed to fetch reviews:', err);
@@ -29,11 +27,9 @@ export default function ListingReviews({ listingId }) {
   if (loading) return <div>Loading reviews...</div>;
   if (!reviews.length) return <div>No reviews yet.</div>;
 
-  // Calculate average rating
   const avgRating =
     reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length;
 
-  // Ratings breakdown (simplified example)
   const breakdown = {
     Cleanliness: avgRating,
     Communication: avgRating,

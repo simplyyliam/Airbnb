@@ -2,12 +2,13 @@ import { Wrapper } from '../../shared';
 import { useState } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import './Login.css';
+import api from '../../../api';
 
 export default function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const isUserLogin = location.state?.isUserLogin ?? true; // true = normal user
+  const isUserLogin = location.state?.isUserLogin ?? true;
 
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
@@ -18,48 +19,28 @@ export default function LoginPage() {
     setError('');
 
     try {
-      const loginRes = await fetch('http://localhost:5000/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, password }), // login with name
-      });
+      const { data: loginData } = await api.post('/auth/login', { name, password });
 
-      const loginData = await loginRes.json();
-
-      if (loginRes.ok) {
-        // Ensure loginData has user
-        if (!loginData.name) {
-          setError('Login failed: user not found');
-          return;
-        }
-
-        // Prevent logging in with wrong account type
-        if (isUserLogin && loginData.isHost) {
-          setError('This account is a host. Use "Become a Host" to log in.');
-          return;
-        }
-        if (!isUserLogin && !loginData.isHost) {
-          setError('This account is not a host. Use normal login.');
-          return;
-        }
-
-        // Save user info & token
-        localStorage.setItem('token', loginData.token);
-        localStorage.setItem('user', JSON.stringify(loginData));
-
-        navigate(isUserLogin ? '/listings' : '/admin-listings');
+      if (!loginData.name) {
+        setError('Login failed: user not found');
         return;
       }
 
-      // Redirect to registration if user not found
-      if (loginData.message === 'User not found' || loginData.message === 'Invalid credentials') {
-        navigate('/register', { state: { isUserRegister: isUserLogin } });
+      if (isUserLogin && loginData.isHost) {
+        setError('This account is a host. Use "Become a Host" to log in.');
+        return;
+      }
+      if (!isUserLogin && !loginData.isHost) {
+        setError('This account is not a host. Use normal login.');
         return;
       }
 
-      setError(loginData.message || 'Login failed');
+      localStorage.setItem('token', loginData.token);
+      localStorage.setItem('user', JSON.stringify(loginData));
+
+      navigate(isUserLogin ? '/listings' : '/admin-listings');
     } catch (err) {
-      setError(err.message);
+      setError(err.response?.data?.message || err.message || 'Login failed');
     }
   };
 

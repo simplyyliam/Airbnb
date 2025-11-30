@@ -7,14 +7,13 @@ export default function Listings () {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
 
-  const city = params.get("city"); // ?city=Rome
+  const city = params.get("city");
   const { listings, loading } = useListings({ city });
 
   if (loading) return <div className='loading'>Loading listings...</div>;
 
   const titleCity = city ? city : "the world";
 
-  // Dynamic count (Airbnb-style)
   const count = listings.length > 200 ? "200+" : listings.length;
 
   return (

@@ -2,6 +2,7 @@ import { Wrapper } from '../../shared';
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import './Login.css';
+import api from '../../../api';
 
 export default function RegisterPage() {
   const navigate = useNavigate();
@@ -20,33 +21,20 @@ export default function RegisterPage() {
     setError('');
 
     try {
-      const res = await fetch('http://localhost:5000/api/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name,
-          email,
-          password,
-          isHost: isHostRegistration, 
-        }),
+      const { data } = await api.post('/auth/register', {
+        name,
+        email,
+        password,
+        isHost: isHostRegistration,
       });
 
-      const data = await res.json();
-
-      if (!res.ok) throw new Error(data.message || 'Registration failed');
-
-      // Save user to localStorage
       localStorage.setItem('user', JSON.stringify(data));
       localStorage.setItem('token', data.token || '');
 
-      // Navigate based on host status
-      if (data.isHost) {
-        navigate('/admin-listings');
-      } else {
-        navigate('/listings');
-      }
+      if (data.isHost) navigate('/admin-listings');
+      else navigate('/listings');
     } catch (err) {
-      setError(err.message);
+      setError(err.response?.data?.message || err.message || 'Registration failed');
     }
   };
 

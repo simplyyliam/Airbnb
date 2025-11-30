@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Box } from "../../shared";
+import api from "../../../api/axios";
 import "./RerservationList.css";
 
 export default function ReservationList() {
@@ -7,7 +8,7 @@ export default function ReservationList() {
   const [loading, setLoading] = useState(true);
 
   const token = localStorage.getItem("token");
-  const user = JSON.parse(localStorage.getItem("user")); // get current user
+  const user = JSON.parse(localStorage.getItem("user"));
   const isHost = user?.isHost;
   const userId = user?._id;
 
@@ -15,17 +16,16 @@ export default function ReservationList() {
     const fetchBookings = async () => {
       try {
         const url = isHost
-          ? "http://localhost:5000/api/bookings/host/me"
-          : `http://localhost:5000/api/bookings/user/${userId}`;
+          ? "/api/bookings/host/me"
+          : `/api/bookings/user/${userId}`;
 
-        const res = await fetch(url, {
+        const res = await api.get(url, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
 
-        const data = await res.json();
-        setBookings(data);
+        setBookings(res.data);
       } catch (error) {
         console.error("Failed to fetch bookings:", error);
       } finally {
@@ -40,16 +40,13 @@ export default function ReservationList() {
     if (!window.confirm("Delete this booking?")) return;
 
     try {
-      const res = await fetch(`http://localhost:5000/api/bookings/${id}`, {
-        method: "DELETE",
+      await api.delete(`/api/bookings/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
 
-      if (res.ok) {
-        setBookings((prev) => prev.filter((b) => b._id !== id));
-      }
+      setBookings((prev) => prev.filter((b) => b._id !== id));
     } catch (err) {
       console.error("Delete failed:", err);
     }
