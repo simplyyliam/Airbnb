@@ -82,6 +82,10 @@ export default function BookingBox ({
           Authorization: `Bearer ${userToken}`
         }
       })
+      console.log("Token being sent:", userToken);
+      console.log("Full request headers:", {
+        Authorization: `Bearer ${userToken}`
+      });
 
       alert(
         `✅ Reservation successful! Total: $${total.toFixed(2)}. Booking ID: ${

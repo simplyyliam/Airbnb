@@ -20,8 +20,8 @@ export default function Searchbar() {
   useEffect(() => {
     const fetchListings = async () => {
       try {
-        const res = await api.get("/api/listings");
-         console.log("Axios baseURL inside component:", api.defaults.baseURL);
+        const res = await api.get("/listings"); 
+        console.log("Axios baseURL inside component:", api.defaults.baseURL);
 
         const uniqueLocations = [
           ...new Set(
