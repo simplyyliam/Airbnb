@@ -7,7 +7,7 @@ import connectDB from "./config/db.js";
 
 import { usersData } from "./data/user.js";
 import { listingsData } from "./data/listing.js"; // now a function
-import { reviewsData } from "./data/reviews.js";
+import { FakeReviews } from "./data/faker.js";
 
 dotenv.config();
 
@@ -24,7 +24,7 @@ const seedDB = async () => {
     const createdListings = await Listing.insertMany(listingsWithHosts);
 
     // Assign listings and users to reviews dynamically
-    const reviewsToInsert = reviewsData(
+    const reviewsToInsert = FakeReviews.generate(
       createdUsers.map((u) => u._id),
       createdListings.map((l) => l._id)
     );
