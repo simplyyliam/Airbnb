@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 
 
-export function useListings(hostId = null) {
+export function useListings({ hostId = null, city = null } = {}) {
   const [listings, setListings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -11,7 +11,15 @@ export function useListings(hostId = null) {
     async function loadListings() {
       try {
         let url = "http://localhost:5000/api/listings";
-        if (hostId) url += `?host=${hostId}`;
+
+        const params = new URLSearchParams();
+
+        if (hostId) params.append("host", hostId);
+        if (city) params.append("city", city);
+
+        if ([...params].length > 0) {
+          url += `?${params.toString()}`;
+        }
 
         const res = await fetch(url);
         if (!res.ok) throw new Error("Failed to fetch listings");
@@ -26,7 +34,7 @@ export function useListings(hostId = null) {
     }
 
     loadListings();
-  }, [hostId]);
+  }, [hostId, city]);
 
   return { listings, loading, error };
 }

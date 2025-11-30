@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from "react";
+import axios from "axios";
 import "./Searchbar.css";
 import { ChevronDown, Search } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -12,24 +13,26 @@ export default function Searchbar() {
   const [guests, setGuests] = useState(1);
   const [showGuests, setShowGuests] = useState(false);
 
-  // Refs for positioning dropdowns under exact clicked element
   const locationRef = useRef(null);
   const guestsRef = useRef(null);
 
-  // Fetch listing locations
+  // Fetch listing cities using axios
   useEffect(() => {
     const fetchListings = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/listings");
-        const data = await res.json();
+        const res = await axios.get("http://localhost:5000/api/listings");
 
         const uniqueLocations = [
-          ...new Set(data.map((listing) => listing.location)),
+          ...new Set(
+            res.data
+              .map((listing) => listing.city)
+              .filter(Boolean)
+          ),
         ];
 
         setLocations(uniqueLocations);
       } catch (err) {
-        console.log("Error:", err);
+        console.log("Error loading cities:", err);
       }
     };
 
@@ -37,14 +40,13 @@ export default function Searchbar() {
   }, []);
 
   const handleLocationSelect = (loc) => {
-    navigate(loc === "all" ? "/listings" : `/listings?location=${loc}`);
+    navigate(loc === "all" ? "/listings" : `/listings?city=${loc}`);
     setShowLocations(false);
   };
 
   return (
     <div id="container">
       <div className="search-container">
-
         {/* LOCATIONS */}
         <div
           className="locations clickable"
@@ -61,7 +63,6 @@ export default function Searchbar() {
           <ChevronDown className="icon" />
         </div>
 
-        {/* LOCATIONS DROPDOWN MODAL */}
         {showLocations && (
           <div
             className="dropdown-modal"
@@ -72,6 +73,7 @@ export default function Searchbar() {
             }}
           >
             <p onClick={() => handleLocationSelect("all")}>All Locations</p>
+
             {locations.map((loc, i) => (
               <p key={i} onClick={() => handleLocationSelect(loc)}>
                 {loc}
@@ -80,9 +82,9 @@ export default function Searchbar() {
           </div>
         )}
 
+        {/* CHECK IN */}
         <span className="separator" />
 
-        {/* CHECK IN */}
         <div className="check-in">
           <div className="header">
             <h1>Check in</h1>
@@ -118,7 +120,6 @@ export default function Searchbar() {
           <ChevronDown className="icon" />
         </div>
 
-        {/* GUESTS DROPDOWN MODAL */}
         {showGuests && (
           <div
             className="dropdown-modal"
