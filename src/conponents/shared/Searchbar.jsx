@@ -1,8 +1,8 @@
 import { useEffect, useState, useRef } from "react";
-import axios from "axios";
 import "./Searchbar.css";
 import { ChevronDown, Search } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import api from "../../api/axios"
 
 export default function Searchbar() {
   const navigate = useNavigate();
@@ -20,7 +20,8 @@ export default function Searchbar() {
   useEffect(() => {
     const fetchListings = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/listings");
+        const res = await api.get("/api/listings");
+         console.log("Axios baseURL inside component:", api.defaults.baseURL);
 
         const uniqueLocations = [
           ...new Set(
