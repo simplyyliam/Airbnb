@@ -61,9 +61,9 @@ export default function BookingBox ({
 
     try {
       const bookingData = {
-        listingId,
-        checkInDate,
-        checkOutDate,
+        listing: listingId,
+        startDate: checkInDate,
+        endDate: checkOutDate,
         guests,
         totalPrice: total
       }

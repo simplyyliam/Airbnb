@@ -9,7 +9,7 @@ export default function AdminListing() {
   const user = JSON.parse(localStorage.getItem('user'))
   const hostId = user?._id
 
-  const { listings, loading, setListings } = useListings(hostId)
+  const { listings, loading, setListings } = useListings({hostId})
 
   if (loading) return <div className='loading'>Loading listings...</div>
 
