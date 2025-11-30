@@ -6,7 +6,7 @@ import Review from "./models/Review.js";
 import connectDB from "./config/db.js";
 
 import { usersData } from "./data/user.js";
-import { listingsData } from "./data/listing.js"; // now a function
+import { listingsData } from "./data/listing.js";
 import { FakeReviews } from "./data/faker.js";
 
 dotenv.config();
@@ -15,6 +15,11 @@ const seedDB = async () => {
   try {
     // Connect to the database once
     await connectDB();
+
+    //clears all existing collections
+    await User.deleteMany({});
+    await Listing.deleteMany({});
+    await Review.deleteMany({});
 
     // Insert users
     const createdUsers = await User.insertMany(usersData);

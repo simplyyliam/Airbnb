@@ -17,14 +17,13 @@ export const FakeUser = {
   avatar: () => faker.image.avatar()
 };
 
-const categories = [
-  "apartment",
-  "cabin",
-  "house",
-  "studio",
-  "villa",
-  "loft",
-  "condo"
+
+export const ListingImages = [
+  "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8YXBhcnRtZW50fGVufDB8fDB8&ixlib=rb-4.0.3&q=80&w=1080",
+  "https://images.unsplash.com/photo-1560448204-9db2cfe0f4f1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+  "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+  "https://images.unsplash.com/photo-1600585154500-c9fa54fa1234?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+  "https://images.unsplash.com/photo-1570129477492-45c003edd2be?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
 ];
 
 
@@ -36,13 +35,8 @@ export const FakeListing = {
   guests: () => faker.number.int({ min: 1, max: 8 }),
   bedrooms: () => faker.number.int({ min: 1, max: 5 }),
   bathrooms: () => faker.number.int({ min: 1, max: 3 }),
-  images: (num = 3) => {
-    // pick a random category for this listing
-    const category = faker.helpers.arrayElement(categories);
-    return Array.from({ length: num }).map(
-      (_, i) => `https://source.unsplash.com/800x600/?${category}&sig=${faker.string.uuid()}`
-    );
-  },
+  images: () =>
+    faker.helpers.arrayElements(ListingImages, faker.number.int({ min: 2, max: 5 })),
   amenities: () =>
     faker.helpers.arrayElements(
       ["Wifi", "Kitchen", "Air Conditioning", "Parking", "Fireplace", "Pool", "TV"],
