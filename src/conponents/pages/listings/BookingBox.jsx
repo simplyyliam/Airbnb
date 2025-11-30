@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react'
 import api from '../../../api/axios'
-import useAuth from '../../../hooks/useAuth'
+import { useAuth } from '../../../hooks'
 
 const calculateNights = (start, end) => {
   if (!start || !end) return 0
@@ -84,9 +84,9 @@ export default function BookingBox ({
       })
 
       alert(
-        `✅ Reservation successful! Total: $${total.toFixed(
-          2
-        )}. Booking ID: ${res.data._id}`
+        `✅ Reservation successful! Total: $${total.toFixed(2)}. Booking ID: ${
+          res.data._id
+        }`
       )
     } catch (error) {
       console.error('Booking error:', error.response?.data || error)
