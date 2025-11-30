@@ -52,53 +52,40 @@ export default function BookingBox ({
     WEEKLY_DISCOUNT
 
   const handleReserve = async () => {
-    if (!isLoggedIn) {
-      promptLogin()
-      return
-    }
-    if (isHost) {
-      alert('Hosts cannot make reservations on the platform.')
-      return
-    }
-    if (nights <= 0) {
-      alert('Please select valid check-in and check-out dates.')
-      return
-    }
-    if (guests > maxGuests) {
-      alert(`This listing only accommodates a maximum of ${maxGuests} guests.`)
-      return
-    }
-
-    const bookingData = {
-      listingId,
-      startDate: checkInDate,
-      endDate: checkOutDate,
-      guests
-    }
+    console.log("🔍 DEBUG - Token check:", {
+      userToken: userToken ? "exists" : "MISSING",
+      tokenLength: userToken?.length,
+      isLoggedIn,
+      currentUser: currentUser?._id
+    });
 
     try {
+      const bookingData = {
+        listingId,
+        checkInDate,
+        checkOutDate,
+        guests,
+        totalPrice: total
+      };
+
+      console.log("📤 Sending booking:", bookingData);
+      console.log("📋 Auth header will be:", `Bearer ${userToken}`);
+
       const res = await api.post('/bookings', bookingData, {
         headers: {
           Authorization: `Bearer ${userToken}`
         }
-      })
-      console.log("Token being sent:", userToken);
-      console.log("Full request headers:", {
-        Authorization: `Bearer ${userToken}`
       });
-
-      alert(
-        `✅ Reservation successful! Total: $${total.toFixed(2)}. Booking ID: ${
-          res.data._id
-        }`
-      )
-    } catch (error) {
-      console.error('Booking error:', error.response?.data || error)
-      alert(
-        `❌ Reservation failed: ${
-          error.response?.data?.message || 'Something went wrong.'
-        }`
-      )
+      
+      console.log("✅ Success:", res.data);
+    } catch (err) {
+      console.error("❌ Full error object:", {
+        status: err.response?.status,
+        statusText: err.response?.statusText,
+        message: err.response?.data?.message,
+        headers: err.config?.headers,
+        token: err.config?.headers?.Authorization
+      });
     }
   }
 
