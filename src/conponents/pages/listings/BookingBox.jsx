@@ -81,12 +81,10 @@ export default function BookingBox ({
 
     try {
       const bookingData = {
-        listing: listingId,
-        user: currentUser._id,
+        listingId,
         startDate: checkInDate,
         endDate: checkOutDate,
         guests,
-        totalPrice: total
       }
 
       const res = await api.post('/bookings', bookingData, {
