@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react'
-import api from "../../../api/axios";
+import api from '../../../api/axios'
 import { useAuth } from '../../../hooks'
 
 const calculateNights = (start, end) => {
@@ -52,12 +52,12 @@ export default function BookingBox ({
     WEEKLY_DISCOUNT
 
   const handleReserve = async () => {
-    console.log("🔍 DEBUG - Token check:", {
-      token: token ? "exists" : "MISSING",
+    console.log('🔍 DEBUG - Token check:', {
+      token: token ? 'exists' : 'MISSING',
       tokenLength: token?.length,
       isLoggedIn,
       currentUser: currentUser?._id
-    });
+    })
 
     try {
       const bookingData = {
@@ -66,26 +66,32 @@ export default function BookingBox ({
         checkOutDate,
         guests,
         totalPrice: total
-      };
+      }
 
-      console.log("📤 Sending booking:", bookingData);
-      console.log("📋 Auth header will be:", `Bearer ${token}`);
+      console.log('📤 Sending booking:', bookingData)
+      console.log('📋 Auth header will be:', `Bearer ${token}`)
 
       const res = await api.post('/bookings', bookingData, {
         headers: {
           Authorization: `Bearer ${token}`
         }
-      });
-      
-      console.log("✅ Success:", res.data);
+      })
+
+      alert(
+        `✅ Reservation successful! Total: $${total.toFixed(2)}. Booking ID: ${
+          res.data._id
+        }`
+      )
+
+      console.log('✅ Success:', res.data)
     } catch (err) {
-      console.error("❌ Full error object:", {
+      console.error('❌ Full error object:', {
         status: err.response?.status,
         statusText: err.response?.statusText,
         message: err.response?.data?.message,
         headers: err.config?.headers,
         token: err.config?.headers?.Authorization
-      });
+      })
     }
   }
 
