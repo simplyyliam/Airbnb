@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import api from '../../../api'; // adjust path
+import api from '../../../api/axios';
 import { Avatar, Box, ProgressBar } from '../../shared';
 import './Reviews.css';
 

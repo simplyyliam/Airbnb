@@ -2,7 +2,7 @@ import { Wrapper } from '../../shared';
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import './Login.css';
-import api from '../../../api';
+import api from '../../../api/axios';
 
 export default function RegisterPage() {
   const navigate = useNavigate();

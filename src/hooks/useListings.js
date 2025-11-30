@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import api from "../../../api";
+import api from "../api/axios";
 
 export function useListings({ hostId = null, city = null } = {}) {
   const [listings, setListings] = useState([]);
