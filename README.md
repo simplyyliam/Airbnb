@@ -156,15 +156,19 @@ DELETE /api/bookings/:id    (user or host)
 
 ```bash
 git clone https://github.com/simplyyliam/Airbnb.git
-cd airbnb-clone
+cd Airbnb
 ```
 
 ### Backend Setup
+> ⚠️ IMPORTANT  
+> The backend folder in this repo is **not the one deployed on Render**.  
+> The live backend used by this project is located here:  
+> 👉 https://github.com/simplyyliam/airbnb-backend 
+>  
+> To run the app locally, make sure to clone and install that backend instead.
 
 ```bash
-cd backend
-npm install
-npm run dev
+git clone https://github.com/simplyyliam/airbnb-backend.git
 ```
 
 Create a `.env` file:
