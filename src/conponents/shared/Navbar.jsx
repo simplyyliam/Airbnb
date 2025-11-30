@@ -40,15 +40,20 @@ export default function Navbar () {
           <Link
             className='dropdown-item'
             to='/login'
-            state={{ isUserLogin: true }} // General user login
+            state={{ isUserLogin: true }}
           >
             Login
           </Link>
         </>
       ) : (
-        <Link className='dropdown-item' onClick={handleLogout}>
-          Logout
-        </Link>
+        <>
+          <Link className='dropdown-item' to='/admin-reservations'>
+            My reservation
+          </Link>
+          <Link className='dropdown-item' onClick={handleLogout}>
+            Logout
+          </Link>
+        </>
       )}
     </div>
   )
@@ -58,7 +63,9 @@ export default function Navbar () {
       className={`nav ${isDarkBackgroundStyle ? 'nav-default' : 'nav-admin'}`}
     >
       <span className='logo'>
-        <AirbnbLogo color={logoColor} />
+        <Link to='/'>
+          <AirbnbLogo color={logoColor} />
+        </Link>
       </span>
 
       {!isAdminRoute && (
@@ -77,7 +84,7 @@ export default function Navbar () {
             {!isAdminRoute && (
               <Link
                 to='/login'
-                state={{ isUserLogin: false }} 
+                state={{ isUserLogin: false }}
                 style={{ color: linkColor, marginRight: 12 }}
               >
                 Become a Host

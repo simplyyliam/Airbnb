@@ -7,9 +7,9 @@ export default function Listings () {
   if (loading) return <div className='loading'>Loading listings...</div>
 
   return (
-    <div className='listing-container'>
+    <Wrapper className='listing-container'>
       <Navbar />
-      <Wrapper className='listing-wrapper'>
+      <div className='listing-wrapper'>
         <h1>200+ Airbnb Luxe stays in New York</h1>
 
         <div className='listing-chips'>
@@ -27,7 +27,7 @@ export default function Listings () {
         ))}
 
         <hr />
-      </Wrapper>
-    </div>
+      </div>
+    </Wrapper>
   )
 }
