@@ -24,7 +24,7 @@ export default function BookingBox ({
   const [checkInDate, setCheckInDate] = useState('')
   const [checkOutDate, setCheckOutDate] = useState('')
   const [guests, setGuests] = useState(1)
-  const { currentUser, isLoggedIn, isHost, userToken, promptLogin } = useAuth()
+  const { currentUser, isLoggedIn, isHost, token } = useAuth()
 
   const numericPrice = Number(price) || 0
   const displayRating = ratingsAverage ? ratingsAverage.toFixed(1) : '4.8'
@@ -53,8 +53,8 @@ export default function BookingBox ({
 
   const handleReserve = async () => {
     console.log("🔍 DEBUG - Token check:", {
-      userToken: userToken ? "exists" : "MISSING",
-      tokenLength: userToken?.length,
+      token: token ? "exists" : "MISSING",
+      tokenLength: token?.length,
       isLoggedIn,
       currentUser: currentUser?._id
     });
@@ -69,11 +69,11 @@ export default function BookingBox ({
       };
 
       console.log("📤 Sending booking:", bookingData);
-      console.log("📋 Auth header will be:", `Bearer ${userToken}`);
+      console.log("📋 Auth header will be:", `Bearer ${token}`);
 
       const res = await api.post('/bookings', bookingData, {
         headers: {
-          Authorization: `Bearer ${userToken}`
+          Authorization: `Bearer ${token}`
         }
       });
       
