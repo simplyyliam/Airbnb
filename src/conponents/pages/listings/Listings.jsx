@@ -8,19 +8,21 @@ export default function Listings () {
   const params = new URLSearchParams(location.search);
 
   const city = params.get("city"); // ?city=Rome
-
   const { listings, loading } = useListings({ city });
 
   if (loading) return <div className='loading'>Loading listings...</div>;
 
   const titleCity = city ? city : "the world";
 
+  // Dynamic count (Airbnb-style)
+  const count = listings.length > 200 ? "200+" : listings.length;
+
   return (
     <Wrapper className='listing-container'>
       <Navbar />
 
       <div className='listing-wrapper'>
-        <h1>200+ Airbnb Luxe stays in {titleCity}</h1>
+        <h1>{count} Airbnb Luxe stays in {titleCity}</h1>
 
         <div className='listing-chips'>
           <Chip>Free cancellations</Chip>

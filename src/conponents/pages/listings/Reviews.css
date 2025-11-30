@@ -56,3 +56,45 @@
   background-color: #000000; 
   border-radius: 10px; 
 }
+
+.avg-rating {
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.star {
+  color: #ff385c;
+  margin-right: 8px;
+}
+
+.rating-text {
+  color: #222;
+}
+
+.review-item {
+  display: flex;
+  gap: 12px;
+}
+
+.reviewer-name {
+  font-weight: 600;
+}
+
+.review-date {
+  color: #888;
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+
+.review-text {
+  color: #222;
+}
+
+.reviews-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 18px;
+}

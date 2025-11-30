@@ -1,7 +1,10 @@
 import { Link } from "react-router-dom";
-import "./ListingCard.css"
+import "./ListingCard.css";
 
 export default function ListingCard({ listing }) {
+  const avgRating = listing.ratingsAverage || 0;
+  const reviewsCount = listing.ratingsQuantity || 0;
+
   return (
     <Link to={`/listings/${listing._id}`} className="listing-card">
       <div className="ratio">
@@ -14,7 +17,7 @@ export default function ListingCard({ listing }) {
       <div className="listing-content">
         <div className="listing-header">
           <div className="listing-title-subtitle">
-            <p>{listing.location}</p>
+            <p>{listing.city}</p>
             <h1>{listing.title}</h1>
           </div>
 
@@ -42,8 +45,7 @@ export default function ListingCard({ listing }) {
 
         <div className="listing-details">
           <p>
-            {listing.guests} guests · {listing.type} · {listing.beds} beds ·{" "}
-            {listing.baths} bath
+            {listing.guests} guests · {listing.bedrooms} beds · {listing.bathrooms} bath
           </p>
           <p>{listing.amenities?.slice(0, 3).join(" · ")}</p>
         </div>
@@ -52,7 +54,7 @@ export default function ListingCard({ listing }) {
 
         <div className="listing-footer">
           <h1>
-            {listing.rating} ({listing.reviews} reviews)
+            {avgRating.toFixed(1)} ({reviewsCount} review{reviewsCount !== 1 ? "s" : ""})
           </h1>
           <span>${listing.price} /night</span>
         </div>

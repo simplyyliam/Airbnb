@@ -1,87 +1,92 @@
-import { Avatar, Box, ProgressBar } from '../../shared'
-import { reviewsData } from '../../../lib'
-import './Reviews.css'
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { Avatar, Box, ProgressBar } from '../../shared';
+import './Reviews.css';
 
-export default function ListingReviews () {
-  const avgRating = (
-    reviewsData.reduce((s, r) => s + r.rating, 0) / reviewsData.length
-  ).toFixed(1)
+export default function ListingReviews({ listingId }) {
+  const [reviews, setReviews] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!listingId) return;
+
+    async function fetchReviews() {
+      try {
+        const { data } = await axios.get(
+          `http://localhost:5000/api/reviews/listing/${listingId}`
+        );
+        setReviews(data);
+      } catch (err) {
+        console.error('Failed to fetch reviews:', err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchReviews();
+  }, [listingId]);
+
+  if (loading) return <div>Loading reviews...</div>;
+  if (!reviews.length) return <div>No reviews yet.</div>;
+
+  // Calculate average rating
+  const avgRating =
+    reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length;
+
+  // Ratings breakdown (simplified example)
+  const breakdown = {
+    Cleanliness: avgRating,
+    Communication: avgRating,
+    'Check-in': avgRating,
+    Accuracy: avgRating,
+    Location: avgRating,
+    Value: avgRating
+  };
 
   return (
     <Box>
-      <div
-        className='reviews-header'
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center'
-        }}
-      >
-        <div>
-          <div style={{ fontSize: 18, fontWeight: 600 }}>
-            <span style={{ color: '#ff385c', marginRight: 8 }}>★</span>
-            {avgRating} · {reviewsData.length} reviews
-          </div>
+      <div className='reviews-header ratings-container'>
+        <div className='avg-rating'>
+          <span className='star'>★</span>
+          <span className='rating-text'>
+            {avgRating.toFixed(1)} · {reviews.length} review{reviews.length !== 1 ? 's' : ''}
+          </span>
         </div>
       </div>
 
       <div className='ratings'>
         <div className='reviews-left'>
-          <div className='row'>
-            <h1>Cleanliness</h1>
-            <ProgressBar progress={100} percentage={5.0} />
-          </div>
-          <div className='row'>
-            <h1>Communication</h1>
-            <ProgressBar progress={100} percentage={5.0} />
-          </div>
-          <div className='row'>
-            <h1>Check-in</h1>
-            <ProgressBar progress={100} percentage={5.0} />
-          </div>
+          {['Cleanliness', 'Communication', 'Check-in'].map((key) => (
+            <div key={key} className='row'>
+              <h1>{key}</h1>
+              <ProgressBar progress={breakdown[key]} />
+            </div>
+          ))}
         </div>
         <div className='reviews-right'>
-          <div className='row'>
-            <h1>Accuracy</h1>
-            <ProgressBar progress={100} percentage={5.0} />
-          </div>
-          <div className='row'>
-            <h1>Location</h1>
-            <ProgressBar progress={90} percentage={4.9} />
-          </div>
-          <div className='row'>
-            <h1>Value</h1>
-            <ProgressBar progress={80} percentage={4.8} />
-          </div>
+          {['Accuracy', 'Location', 'Value'].map((key) => (
+            <div key={key} className='row'>
+              <h1>{key}</h1>
+              <ProgressBar progress={breakdown[key]} />
+            </div>
+          ))}
         </div>
       </div>
-      <div
-        className='reviews-grid'
-        style={{
-          display: 'grid',
-          gridTemplateColumns: '1fr 1fr',
-          gap: 24,
-          marginTop: 18
-        }}
-      >
-        {reviewsData.map((r, i) => (
-          <div
-            key={i}
-            className='review-item'
-            style={{ display: 'flex', gap: 12 }}
-          >
-            <Avatar src={r.avatar} alt={`${r.name} avatar`} />
+
+      <div className='reviews-grid'>
+        {reviews.map((r) => (
+          <div key={r._id} className='review-item'>
+            <Avatar src={r.user.avatar || '/avatar-1.png'} alt={`${r.user.name} avatar`} />
             <div>
-              <div style={{ fontWeight: 600 }}>{r.name}</div>
-              <div style={{ color: '#888', fontSize: 13, marginBottom: 8 }}>
-                {r.date}
-              </div>
-              <div style={{ color: '#222' }}>{r.text}</div>
+              <div className='reviewer-name'>{r.user.name}</div>
+              <div className='review-date'>{new Date(r.createdAt).toLocaleDateString()}</div>
+              <div className='review-text'>{r.comment}</div>
             </div>
           </div>
         ))}
       </div>
-      <button className='CTA'>Show all {reviewsData.length} reviews</button>
+
+      <button className='CTA'>Show all {reviews.length} reviews</button>
     </Box>
-  )
+  );
 }
