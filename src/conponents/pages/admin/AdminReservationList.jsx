@@ -16,8 +16,8 @@ export default function ReservationList() {
     const fetchBookings = async () => {
       try {
         const url = isHost
-          ? "/api/bookings/host/me"
-          : `/api/bookings/user/${userId}`;
+          ? "/bookings/host/me"
+          : `/bookings/user/${userId}`;
 
         const res = await api.get(url, {
           headers: {
@@ -40,7 +40,7 @@ export default function ReservationList() {
     if (!window.confirm("Delete this booking?")) return;
 
     try {
-      await api.delete(`/api/bookings/${id}`, {
+      await api.delete(`/bookings/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

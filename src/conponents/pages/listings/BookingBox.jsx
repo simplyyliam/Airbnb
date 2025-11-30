@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react'
-import api from '../../../api/axios'
+import api from "../../../api/axios";
 import { useAuth } from '../../../hooks'
 
 const calculateNights = (start, end) => {
@@ -77,7 +77,7 @@ export default function BookingBox ({
     }
 
     try {
-      const res = await api.post('/api/bookings', bookingData, {
+      const res = await api.post('/bookings', bookingData, {
         headers: {
           Authorization: `Bearer ${userToken}`
         }

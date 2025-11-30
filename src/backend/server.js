@@ -17,7 +17,25 @@ connectDB();
 
 const app = express();
 app.use(json());
-app.use(cors());
+
+// Set allowed origins
+const allowedOrigins = [
+  'http://localhost:5173', 
+  'https://airbnb-9dng.vercel.app/', 
+];
+
+// CORS configuration
+app.use(cors({
+  origin: function(origin, callback) {
+    if (!origin) return callback(null, true); 
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
+}));
+
 if (process.env.NODE_ENV === 'development') app.use(morgan('dev'));
 
 // Routes

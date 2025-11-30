@@ -2,7 +2,7 @@ import { Box, ListingCard } from '../../shared'
 import './AdminListing.css'
 import { useListings } from '../../../hooks'
 import { useNavigate } from 'react-router-dom'
-import api from "../../../api/axios"
+import api from "../../../api/axios";
 
 export default function AdminListing() {
   const navigate = useNavigate()
@@ -17,7 +17,7 @@ export default function AdminListing() {
     if (!confirm('Are you sure you want to delete this listing?')) return
 
     try {
-      await api.delete(`/api/listings/${id}`, {
+      await api.delete(`/listings/${id}`, {
         headers: { Authorization: `Bearer ${user.token}` },
       })
 

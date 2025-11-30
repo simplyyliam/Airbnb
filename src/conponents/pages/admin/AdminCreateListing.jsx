@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import './CreateListing.css'
 import { Wrapper } from '../../shared'
 import { useAuth } from '../../../hooks'
-import api from "../../../api/axios"
+import api from "../../../api/axios";
 
 export default function CreateListing() {
   const { currentUser, isHost, loading, token } = useAuth()
@@ -69,7 +69,7 @@ export default function CreateListing() {
       if (editingListing) {
         // Update existing listing
         await api.put(
-          `/api/listings/${editingListing._id}`,
+          `/listings/${editingListing._id}`,
           payload,
           { headers: { Authorization: `Bearer ${token}` } }
         )
@@ -77,7 +77,7 @@ export default function CreateListing() {
       } else {
         // Create new listing
         await api.post(
-          '/api/listings',
+          '/listings',
           payload,
           { headers: { Authorization: `Bearer ${token}` } }
         )
