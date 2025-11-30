@@ -59,39 +59,56 @@ export default function BookingBox ({
       currentUser: currentUser?._id
     })
 
+    if (!isLoggedIn) {
+      alert('Please log in to reserve this listing.')
+      return
+    }
+
+    if (isHost) {
+      alert('Hosts cannot reserve listings.')
+      return
+    }
+
+    if (nights <= 0) {
+      alert('Please select valid check-in and check-out dates.')
+      return
+    }
+
+    if (guests > maxGuests) {
+      alert(`This listing only accommodates up to ${maxGuests} guests.`)
+      return
+    }
+
     try {
       const bookingData = {
         listing: listingId,
+        user: currentUser._id,
         startDate: checkInDate,
         endDate: checkOutDate,
         guests,
         totalPrice: total
       }
 
-      console.log('📤 Sending booking:', bookingData)
-      console.log('📋 Auth header will be:', `Bearer ${token}`)
-
       const res = await api.post('/bookings', bookingData, {
         headers: {
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`
         }
       })
 
+      const bookingId = res.data._id || res.data.booking?._id
+
       alert(
         `✅ Reservation successful! Total: $${total.toFixed(2)}. Booking ID: ${
-          res.data._id
+          bookingId || 'N/A'
         }`
       )
-
-      console.log('✅ Success:', res.data)
     } catch (err) {
-      console.error('❌ Full error object:', {
-        status: err.response?.status,
-        statusText: err.response?.statusText,
-        message: err.response?.data?.message,
-        headers: err.config?.headers,
-        token: err.config?.headers?.Authorization
-      })
+      const message =
+        err.response?.data?.message ||
+        'Something went wrong while making the reservation.'
+      alert(`❌ Reservation failed: ${message}`)
+      console.error(err)
     }
   }
 
