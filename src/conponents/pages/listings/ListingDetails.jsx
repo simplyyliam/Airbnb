@@ -135,7 +135,7 @@ export default function ListingDetails() {
           <div className='content-rooms'>
             <h1>Where you'll sleep</h1>
             <div className='thumbnail'>
-              <img src='/hero.jpg' alt='' />
+              <img src='/room.jpg' alt='' />
               <div className='thumbnail-title'>
                 <h1>Bedroom</h1>
                 <p>1 queen bed</p>

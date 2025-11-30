@@ -151,14 +151,23 @@ button {
 }
 
 
-.discover .card-hero {    
+.discover .card-hero {
     width: 628px;
     height: 628px;
     gap: 24px;
     border-radius: 8px;
     padding: 80px;
-    background: url("/hero.jpg") center no-repeat;
     background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.discover .carousel .card-hero:nth-child(1) {
+    background-image: url("/explore.jpg");
+}
+
+.discover .carousel .card-hero:nth-child(2) {
+    background-image: url("/experience.jpg");
 }
 
 
