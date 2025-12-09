@@ -144,12 +144,6 @@ DELETE /api/bookings/:id    (user or host)
 
 ---
 
-## 📸 **Screenshots**
-
-*(Add them yourself — homepage, listing page, booking page, admin panel, etc.)*
-
----
-
 ## 📦 **Install & Run**
 
 ### Clone
