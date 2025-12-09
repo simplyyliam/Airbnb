@@ -137,7 +137,7 @@ DELETE /api/bookings/:id    (user or host)
 
 ## 🌐 **Deployment**
 
-* **Frontend:** Vercel
+* **Frontend:** Vercel & Netlify
 * **Backend:** Render
 * CORS configured for production
 * Environment variables stored securely
